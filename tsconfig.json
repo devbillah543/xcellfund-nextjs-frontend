@@ -19,7 +19,42 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": [
+        "./src/*"
+      ],
+      "@/assets/*": [
+        "./public/assets/*"
+      ],
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "@/features/*": [
+        "./src/features/*"
+      ],
+      "@/hooks/*": [
+        "./src/hooks/*"
+      ],
+      "@/layouts/*": [
+        "./src/layouts/*"
+      ],
+      "@/lib/*": [
+        "./src/lib/*"
+      ],
+      "@/pages/*": [
+        "./src/pages/*"
+      ],
+      "@/providers/*": [
+        "./src/providers/*"
+      ],
+      "@/services/*": [
+        "./src/services/*"
+      ],
+      "@/types/*": [
+        "./src/types/*"
+      ],
+      "@/utils/*": [
+        "./src/utils/*"
+      ]
     }
   },
   "include": [

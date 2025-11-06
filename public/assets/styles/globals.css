@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+/* Light theme (default) */
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+/* Dark theme (when .dark class is added to <html>) */
+.dark {
+  --background: #0a0a0a;
+  --foreground: #ededed;
+}
+
+/* Tailwind theme variables (optional if using Tailwind v4 inline theme) */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+/* Global base styles */
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+}
