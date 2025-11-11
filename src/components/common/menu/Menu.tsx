@@ -8,11 +8,18 @@ import MenuItem from "./MenuItem";
 import Link from "next/link";
 import { FaBars, FaTimes } from "react-icons/fa";
 import clsx from "clsx";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, Variants } from "framer-motion";
+
+type MenuItemType = {
+  id: number | string;
+  label?: string;
+  url?: string;
+  // add other fields you expect from your API if needed
+};
 
 export default function Menu() {
-  const { global,loading } = useGlobal();
-  const menu = global?.navigation?.menus || [];
+  const { global, loading } = useGlobal();
+  const menu: MenuItemType[] = (global?.navigation?.menus as MenuItemType[]) || [];
 
   // treat as loading if provider indicates loading or global is not yet available
   const isLoading = Boolean(loading) || !global;
@@ -27,9 +34,14 @@ export default function Menu() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Framer Motion variants
-  const panelVariant = {
-    hidden: { opacity: 0, y: -8, height: 0, transition: { when: "afterChildren" } },
+  // Framer Motion variants (explicitly typed)
+  const panelVariant: Variants = {
+    hidden: {
+      opacity: 0,
+      y: -8,
+      height: 0,
+      transition: { when: "afterChildren" },
+    },
     visible: {
       opacity: 1,
       y: 0,
@@ -41,17 +53,26 @@ export default function Menu() {
         damping: 30,
       },
     },
-    exit: { opacity: 0, y: -8, height: 0, transition: { when: "afterChildren" } },
+    exit: {
+      opacity: 0,
+      y: -8,
+      height: 0,
+      transition: { when: "afterChildren" },
+    },
   };
 
-  const listVariant = {
+  const listVariant: Variants = {
     hidden: { transition: { staggerChildren: 0.02, staggerDirection: -1 } },
     visible: { transition: { staggerChildren: 0.06, staggerDirection: 1 } },
   };
 
-  const itemVariant = {
+  const itemVariant: Variants = {
     hidden: { opacity: 0, y: 6 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 400, damping: 28 } },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { type: "spring", stiffness: 400, damping: 28 },
+    },
     exit: { opacity: 0, y: 6, transition: { duration: 0.16 } },
   };
 
@@ -60,9 +81,12 @@ export default function Menu() {
       <div className="container mx-auto flex justify-between items-center p-4 relative">
         {/* Logo */}
         {isLoading ? (
-          <div className="inline-block w-32 h-8 bg-gray-200 rounded animate-pulse" aria-hidden />
+          <div
+            className="inline-block w-32 h-8 bg-gray-200 rounded animate-pulse"
+            aria-hidden
+          />
         ) : (
-          global?.navigation.brand?.logo && (
+          global?.navigation?.brand?.logo && (
             <Link href="/" className="inline-block" onClick={() => setMobileOpen(false)}>
               <Image
                 loader={({ src }) => src}
@@ -78,7 +102,7 @@ export default function Menu() {
         )}
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6 relative">
+        <nav className="hidden lg:flex items-center gap-6 relative" aria-label="Primary">
           {isLoading ? (
             // simple skeleton placeholders for desktop menu
             <>
@@ -88,7 +112,7 @@ export default function Menu() {
               <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
             </>
           ) : (
-            menu.map((item: any) => <MenuItem key={item.id} item={item} />)
+            menu.map((item) => <MenuItem key={String(item.id)} item={item} />)
           )}
         </nav>
 
@@ -104,7 +128,11 @@ export default function Menu() {
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
           disabled={isLoading}
         >
-          {mobileOpen ? <FaTimes className="text-white" size={20} /> : <FaBars className="text-white" size={20} />}
+          {mobileOpen ? (
+            <FaTimes className="text-white" size={20} />
+          ) : (
+            <FaBars className="text-white" size={20} />
+          )}
         </button>
       </div>
 
@@ -140,12 +168,12 @@ export default function Menu() {
                   {isLoading
                     ? // mobile skeleton list
                       Array.from({ length: 4 }).map((_, i) => (
-                          <motion.div key={i} variants={itemVariant}>
-                            <div className="w-full h-4 bg-gray-200 rounded animate-pulse my-2" />
-                          </motion.div>
-                        ))
-                    : menu.map((item: any) => (
-                        <motion.div key={item.id} variants={itemVariant}>
+                        <motion.div key={i} variants={itemVariant}>
+                          <div className="w-full h-4 bg-gray-200 rounded animate-pulse my-2" />
+                        </motion.div>
+                      ))
+                    : menu.map((item) => (
+                        <motion.div key={String(item.id)} variants={itemVariant}>
                           {/* MenuItem will render mobile Disclosure UI */}
                           <MenuItem item={item} />
                         </motion.div>

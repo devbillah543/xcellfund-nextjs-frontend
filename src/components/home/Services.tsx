@@ -6,6 +6,16 @@ import React from "react";
 export default function Services() {
   const { homeData, loading } = useHome();
 
+  // Typed service item to avoid implicit 'any'
+  type Service = {
+    id: string | number;
+    title?: string;
+    description?: string;
+    [key: string]: any;
+  };
+
+  const services: Service[] = (homeData?.services?.cards as Service[]) ?? [];
+
   return (
     <div className="max-w-[1140px] mx-auto mb-10 px-4">
       <h2 className="text-[#c6ac83] text-4xl uppercase mb-12 text-center md:text-left">
@@ -20,11 +30,11 @@ export default function Services() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {loading
           ? Array.from({ length: 4 }).map((_, i) => <ServiceSkeleton key={i} />)
-          : homeData?.services?.cards?.map((service) => (
+          : services.map((service) => (
               <Item
                 key={service.id}
-                title={service.title}
-                description={service.description}
+                title={service.title ?? ""}
+                description={service.description ?? ""}
               />
             ))}
       </div>

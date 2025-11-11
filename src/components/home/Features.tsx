@@ -4,9 +4,9 @@ import { useHome } from "@/hooks/useHome";
 import Link from "next/link";
 
 export default function Features() {
-  const { homeData,loading } = useHome();
+  const { homeData, loading } = useHome();
 
-   if (loading) {
+  if (loading) {
     // 🔹 Skeleton loader for 4 feature cards
     return (
       <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto relative top-[-125px] px-5 md:px-0">
@@ -25,17 +25,31 @@ export default function Features() {
     );
   }
 
+  // typed Feature to avoid implicit 'any' in map callback
+  type Feature = {
+    id: string | number;
+    icon?: string | null;
+    title?: string | null;
+    link?: { url?: string } | string | null;
+    [key: string]: any;
+  };
+
+  const features: Feature[] = (homeData?.features as Feature[]) ?? [];
 
   return (
     <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto relative top-[-125px] px-5 md:px-0">
-      {homeData?.features?.map((feature) => (
-        <Item
-          key={feature.id}
-          icon={feature.icon}
-          title={feature.title}
-          link={feature.link?.url}
-        />
-      ))}
+      {features.map((feature) => {
+        const linkStr =
+          typeof feature.link === "string" ? feature.link : (feature.link?.url ?? "");
+        return (
+          <Item
+            key={feature.id}
+            icon={feature.icon ?? ""}
+            title={feature.title ?? ""}
+            link={linkStr}
+          />
+        );
+      })}
     </div>
   );
 }

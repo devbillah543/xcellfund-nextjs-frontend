@@ -27,10 +27,31 @@ export const GlobalProvider = ({ children }: GlobalProviderProps) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    fetchGlobal()
-      .then((data) => setGlobal(data))
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false));
+    let isMounted = true;
+
+    const load = async () => {
+      setLoading(true);
+      try {
+        const data = await fetchGlobal();
+        if (isMounted) {
+          setGlobal(data);
+          setError(null);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setError(err instanceof Error ? err.message : String(err));
+          setGlobal(null);
+        }
+      } finally {
+        if (isMounted) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      isMounted = false;
+    };
   }, []);
 
   return (

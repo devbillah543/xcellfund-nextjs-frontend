@@ -23,14 +23,17 @@ interface Item {
   id: number;
   title: string;
   description: string;
-  image: ImageData;
+  image?: ImageData | null;
 }
 
 interface CarouselProps {
   items: Item[];
 }
 
-const animationDirections = [
+// allow x/y to be either strings (with units) or numbers
+type AnimVector = { x: string | number; y: string | number };
+
+const animationDirections: AnimVector[] = [
   { x: 0, y: "-100vh" },
   { x: 0, y: "100vh" },
   { x: "-100vw", y: 0 },
@@ -39,12 +42,13 @@ const animationDirections = [
 
 export default function Carousel({ items }: CarouselProps) {
   const [current, setCurrent] = useState(0);
-  const [animTitle, setAnimTitle] = useState({ x: 0, y: "-100vh" });
-  const [animDesc, setAnimDesc] = useState({ x: 0, y: "100vh" });
-  const [animLine, setAnimLine] = useState({ x: 0, y: "-100vh" });
+  // explicitly allow string | number for x/y
+  const [animTitle, setAnimTitle] = useState<AnimVector>({ x: 0, y: "-100vh" });
+  const [animDesc, setAnimDesc] = useState<AnimVector>({ x: 0, y: "100vh" });
+  const [animLine, setAnimLine] = useState<AnimVector>({ x: 0, y: "-100vh" });
   const [isPaused, setIsPaused] = useState(false);
   const [lineHeight, setLineHeight] = useState(0);
-  const textRef = useRef<HTMLDivElement>(null);
+  const textRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isPaused) return;
@@ -55,16 +59,21 @@ export default function Carousel({ items }: CarouselProps) {
   }, [items.length, isPaused]);
 
   useEffect(() => {
-    const randomTitle = animationDirections[Math.floor(Math.random() * 4)];
-    const randomDesc = animationDirections[Math.floor(Math.random() * 4)];
-    const randomLine = animationDirections[Math.floor(Math.random() * 4)];
+    // choose random directions (they are AnimVector)
+    const randomTitle = animationDirections[Math.floor(Math.random() * animationDirections.length)];
+    const randomDesc = animationDirections[Math.floor(Math.random() * animationDirections.length)];
+    const randomLine = animationDirections[Math.floor(Math.random() * animationDirections.length)];
     setAnimTitle(randomTitle);
     setAnimDesc(randomDesc);
     setAnimLine(randomLine);
   }, [current]);
 
   useEffect(() => {
-    if (textRef.current) setLineHeight(textRef.current.offsetHeight);
+    if (textRef.current) {
+      setLineHeight(textRef.current.offsetHeight);
+    } else {
+      setLineHeight(0);
+    }
   }, [current, items]);
 
   const nextSlide = () => setCurrent((prev) => (prev + 1) % items.length);
@@ -145,16 +154,10 @@ export default function Carousel({ items }: CarouselProps) {
       </div>
 
       {/* Navigation buttons — hidden on small screen */}
-      <div
-        onClick={prevSlide}
-        className="hidden md:block absolute left-5 top-1/2 -translate-y-1/2"
-      >
+      <div className="hidden md:block absolute left-5 top-1/2 -translate-y-1/2">
         <ScrollButton type="prev" onClick={prevSlide} />
       </div>
-      <div
-        onClick={nextSlide}
-        className="hidden md:block absolute right-5 top-1/2 -translate-y-1/2"
-      >
+      <div className="hidden md:block absolute right-5 top-1/2 -translate-y-1/2">
         <ScrollButton type="next" onClick={nextSlide} />
       </div>
     </div>

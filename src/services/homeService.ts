@@ -78,33 +78,91 @@ function normalizeHome(raw: any): GlobalData {
   } as GlobalData;
 }
 
+// Simple in-memory cache for home data (server or client runtime).
+type HomeCacheEntry = {
+  data?: GlobalData;
+  expiresAt?: number;
+  promise?: Promise<GlobalData>;
+};
+
+// single-entry cache
+const HOME_CACHE: HomeCacheEntry = {};
+
+// TTL in milliseconds (configurable via env). Default 1 hour.
+const HOME_CACHE_TTL_MS = Number(process.env.NEXT_PUBLIC_API_CACHE_TTL_MS ?? process.env.API_CACHE_TTL_MS ?? 60 * 60 * 1000);
+
+/**
+ * Clear the in-memory home cache.
+ */
+export function clearHomeCache() {
+  HOME_CACHE.data = undefined;
+  HOME_CACHE.expiresAt = undefined;
+  HOME_CACHE.promise = undefined;
+}
+
+/**
+ * Inspect home cache info.
+ */
+export function getHomeCacheInfo() {
+  return {
+    hasData: Boolean(HOME_CACHE.data),
+    expiresAt: HOME_CACHE.expiresAt ?? null,
+    ttlMs: HOME_CACHE_TTL_MS,
+  };
+}
+
 /**
  * Fetch home page data (seo + carousel)
- * Works on both server and client
+ * Uses in-memory cache with TTL and request deduplication.
+ *
+ * @param forceRevalidate - bypass cache when true
  */
-export async function fetchHome(): Promise<GlobalData> {
-  const url = buildUrl();
-  const headers = buildHeaders();
-
-  try {
-    const res = await fetch(url, {
-      headers,
-      // Next.js-specific option — harmless in browser; adjust/remove if not using Next
-      next: { revalidate: 60 * 60 }, // revalidate every hour
-    });
-
-    if (!res.ok) {
-      console.error("Failed to fetch home data:", res.status, res.statusText);
-      return DEFAULT_GLOBAL;
-    }
-
-    const json = await safeJson(res);
-    if (!json) return DEFAULT_GLOBAL;
-
-    const normalized = normalizeHome(json);
-    return normalized;
-  } catch (error) {
-    console.error("Error fetching home data:", error);
-    return DEFAULT_GLOBAL;
+export async function fetchHome(forceRevalidate = false): Promise<GlobalData> {
+  // return cached value when valid
+  if (!forceRevalidate && HOME_CACHE.data && HOME_CACHE.expiresAt && Date.now() < HOME_CACHE.expiresAt) {
+    return HOME_CACHE.data;
   }
+
+  // reuse in-flight request if present
+  if (!forceRevalidate && HOME_CACHE.promise) {
+    return HOME_CACHE.promise;
+  }
+
+  // create and store in-flight promise
+  const fetchPromise = (async () => {
+    const url = buildUrl();
+    const headers = buildHeaders();
+
+    try {
+      const res = await fetch(url, {
+        headers,
+        next: { revalidate: 60 * 60 }, // keep Next.js option if applicable
+      });
+
+      if (!res.ok) {
+        console.error("Failed to fetch home data:", res.status, res.statusText);
+        return DEFAULT_GLOBAL;
+      }
+
+      const json = await safeJson(res);
+      if (!json) return DEFAULT_GLOBAL;
+
+      const normalized = normalizeHome(json);
+
+      // store in cache
+      HOME_CACHE.data = normalized;
+      HOME_CACHE.expiresAt = Date.now() + HOME_CACHE_TTL_MS;
+
+      return normalized;
+    } catch (error) {
+      console.error("Error fetching home data:", error);
+      return DEFAULT_GLOBAL;
+    } finally {
+      // clear promise so subsequent calls can start a new one after completion
+      HOME_CACHE.promise = undefined;
+    }
+  })();
+
+  HOME_CACHE.promise = fetchPromise;
+  return fetchPromise;
 }

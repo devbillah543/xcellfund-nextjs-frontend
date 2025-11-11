@@ -109,7 +109,14 @@ export default function Form() {
     setSubmitError(null);
 
     try {
-      const response = await submitForm(values);
+      // submitForm expects a plain object with specific fields (e.g. name, email).
+      // Build a payload object from values and ensure common required keys exist.
+      const payload: Record<string, string> = { ...values };
+      // ensure common expected fields exist to satisfy the service typing
+      payload.name = payload.name ?? "";
+      payload.email = payload.email ?? "";
+      const response = await submitForm(payload as any);
+
       if (response.success) {
         setSubmitted(true);
         setValues(fields.reduce((acc, f) => ({ ...acc, [f.name]: "" }), {}));
