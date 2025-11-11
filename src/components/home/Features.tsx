@@ -4,7 +4,27 @@ import { useHome } from "@/hooks/useHome";
 import Link from "next/link";
 
 export default function Features() {
-  const { homeData } = useHome();
+  const { homeData,loading } = useHome();
+
+   if (loading) {
+    // 🔹 Skeleton loader for 4 feature cards
+    return (
+      <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto relative top-[-125px] px-5 md:px-0">
+        {[1, 2, 3, 4].map((i) => (
+          <div
+            key={i}
+            className="w-full sm:w-1/2 lg:w-1/4 bg-[#414345] flex flex-col justify-center items-center 
+                       border-solid border-t-0 border-r border-b-0 border-l-0 border-[#3B3A3A] 
+                       py-10 px-6 mb-2 md:mb-0 animate-pulse"
+          >
+            <div className="w-10 h-10 bg-gray-400/30 rounded-full mb-4"></div>
+            <div className="w-3/4 h-5 bg-gray-400/30 rounded"></div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
 
   return (
     <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto relative top-[-125px] px-5 md:px-0">

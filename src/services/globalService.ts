@@ -99,7 +99,7 @@ export async function fetchGlobal(): Promise<GlobalData> {
     const res = await fetch(url, {
       headers,
       // Next.js-specific option — harmless in browser; adjust/remove if not using Next
-      next: { revalidate: 60 },
+      next: { revalidate: 100 },
     });
 
     if (!res.ok) {

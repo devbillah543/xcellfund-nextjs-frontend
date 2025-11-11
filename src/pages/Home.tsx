@@ -1,6 +1,8 @@
 "use client";
 
+import Contact from "@/components/home/Contact";
 import Features from "@/components/home/Features";
+import Form from "@/components/home/Form";
 import Hero from "@/components/home/Hero";
 import Highlights from "@/components/home/Highlights";
 import Services from "@/components/home/Services";
@@ -17,6 +19,8 @@ export default function Home() {
       <WhoAreWe />
       <WhoAreWeBanner />
       <Highlights />
+      <Contact />
+      <Form />
     </div>
   );
 }

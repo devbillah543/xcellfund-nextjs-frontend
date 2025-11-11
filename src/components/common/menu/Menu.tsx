@@ -11,8 +11,11 @@ import clsx from "clsx";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Menu() {
-  const { global } = useGlobal();
+  const { global,loading } = useGlobal();
   const menu = global?.navigation?.menus || [];
+
+  // treat as loading if provider indicates loading or global is not yet available
+  const isLoading = Boolean(loading) || !global;
 
   const [mobileOpen, setMobileOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -56,25 +59,37 @@ export default function Menu() {
     <header className="w-full">
       <div className="container mx-auto flex justify-between items-center p-4 relative">
         {/* Logo */}
-        {global?.navigation.brand?.logo && (
-          <Link href="/" className="inline-block" onClick={() => setMobileOpen(false)}>
-            <Image
-              loader={({ src }) => src}
-              priority
-              src={`${config.API_URL}${global.navigation.brand.logo.url}`}
-              alt={global.navigation.brand.logo.alt || "Brand Logo"}
-              width={200}
-              height={200}
-              unoptimized
-            />
-          </Link>
+        {isLoading ? (
+          <div className="inline-block w-32 h-8 bg-gray-200 rounded animate-pulse" aria-hidden />
+        ) : (
+          global?.navigation.brand?.logo && (
+            <Link href="/" className="inline-block" onClick={() => setMobileOpen(false)}>
+              <Image
+                loader={({ src }) => src}
+                priority
+                src={`${config.API_URL}${global.navigation.brand.logo.url}`}
+                alt={global.navigation.brand.logo.alt || "Brand Logo"}
+                width={200}
+                height={200}
+                unoptimized
+              />
+            </Link>
+          )
         )}
 
         {/* Desktop Navigation */}
         <nav className="hidden lg:flex items-center gap-6 relative">
-          {menu.map((item: any) => (
-            <MenuItem key={item.id} item={item} />
-          ))}
+          {isLoading ? (
+            // simple skeleton placeholders for desktop menu
+            <>
+              <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
+              <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
+              <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
+              <div className="w-16 h-4 bg-gray-200 rounded animate-pulse" />
+            </>
+          ) : (
+            menu.map((item: any) => <MenuItem key={item.id} item={item} />)
+          )}
         </nav>
 
         {/* Hamburger for mobile */}
@@ -87,6 +102,7 @@ export default function Menu() {
           aria-expanded={mobileOpen}
           aria-controls="mobile-navigation"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          disabled={isLoading}
         >
           {mobileOpen ? <FaTimes className="text-white" size={20} /> : <FaBars className="text-white" size={20} />}
         </button>
@@ -121,21 +137,24 @@ export default function Menu() {
                   animate="visible"
                   exit="hidden"
                 >
-                  {menu.map((item: any) => (
-                    <motion.div key={item.id} variants={itemVariant}>
-                      {/* MenuItem will render mobile Disclosure UI */}
-                      <MenuItem item={item} />
-                    </motion.div>
-                  ))}
+                  {isLoading
+                    ? // mobile skeleton list
+                      Array.from({ length: 4 }).map((_, i) => (
+                          <motion.div key={i} variants={itemVariant}>
+                            <div className="w-full h-4 bg-gray-200 rounded animate-pulse my-2" />
+                          </motion.div>
+                        ))
+                    : menu.map((item: any) => (
+                        <motion.div key={item.id} variants={itemVariant}>
+                          {/* MenuItem will render mobile Disclosure UI */}
+                          <MenuItem item={item} />
+                        </motion.div>
+                      ))}
                 </motion.nav>
 
                 {/* optional mobile CTA */}
-                {global?.navigation?.mobile_cta && (
-                  <motion.div
-                    className="mt-6"
-                    variants={itemVariant}
-                    style={{ originY: 0 }}
-                  >
+                {!isLoading && global?.navigation?.mobile_cta && (
+                  <motion.div className="mt-6" variants={itemVariant} style={{ originY: 0 }}>
                     <Link
                       href={global.navigation.mobile_cta.url || "/"}
                       className="block px-4 py-2 rounded-md border text-center uppercase"

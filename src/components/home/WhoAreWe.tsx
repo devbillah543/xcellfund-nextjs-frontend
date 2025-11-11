@@ -5,7 +5,7 @@ import Link from "next/link";
 import React from "react";
 
 export default function WhoAreWe() {
-  const { homeData } = useHome();
+  const { homeData, loading } = useHome();
 
   return (
     <div className="bg-[#2b3034]">
@@ -17,7 +17,11 @@ export default function WhoAreWe() {
       >
         {/* Left */}
         <div className="w-full md:w-2/5 flex justify-center md:justify-end md:pr-4">
-          <LeftContent {...homeData?.who_we_are?.left_content} />
+          {loading ? (
+            <LeftSkeleton />
+          ) : (
+            <LeftContent {...homeData?.who_we_are?.left_content} />
+          )}
         </div>
 
         {/* Vertical line (hidden on mobile) */}
@@ -25,7 +29,11 @@ export default function WhoAreWe() {
 
         {/* Right */}
         <div className="w-full md:w-3/5 flex justify-center md:justify-start md:pl-4">
-          <RightContent {...homeData?.who_we_are?.right_content} />
+          {loading ? (
+            <RightSkeleton />
+          ) : (
+            <RightContent {...homeData?.who_we_are?.right_content} />
+          )}
         </div>
       </div>
     </div>
@@ -75,5 +83,32 @@ const RightContent = ({ description, link }: RightContentProps) => (
         {link.label}
       </Link>
     )}
+  </div>
+);
+
+/* ----------------------------
+   🩶 Skeleton Placeholders
+-----------------------------*/
+
+const LeftSkeleton = () => (
+  <div className="flex flex-col md:flex-row items-start gap-4 md:ps-28 animate-pulse">
+    <div className="hidden md:block w-32 h-px bg-white/10 mt-3"></div>
+    <div className="flex flex-col items-start text-left">
+      <div className="w-32 h-5 bg-white/10 rounded mb-3"></div>
+      <div className="w-60 h-8 bg-white/10 rounded mb-2"></div>
+      <div className="w-48 h-8 bg-white/10 rounded"></div>
+    </div>
+  </div>
+);
+
+const RightSkeleton = () => (
+  <div className="flex flex-col w-full md:w-1/2 text-left md:text-left pb-10 md:pb-0 animate-pulse">
+    <div className="space-y-2">
+      <div className="w-full h-4 bg-white/10 rounded"></div>
+      <div className="w-5/6 h-4 bg-white/10 rounded"></div>
+      <div className="w-3/4 h-4 bg-white/10 rounded"></div>
+      <div className="w-2/3 h-4 bg-white/10 rounded"></div>
+    </div>
+    <div className="w-28 h-8 bg-[#c6ac83]/30 rounded mt-6"></div>
   </div>
 );
