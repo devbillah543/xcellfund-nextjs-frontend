@@ -2,10 +2,8 @@
 
 import { useHome } from "@/hooks/useHome";
 import React, { useEffect, useRef, useState } from "react";
+import { submitForm } from "@/services/feeback";
 
-/* -----------------------------
-   Types
-   ----------------------------- */
 type Field = {
   id: number;
   label?: string | null;
@@ -20,51 +18,39 @@ type Field = {
 type Values = Record<string, string>;
 type Errors = Record<string, string>;
 
-/* -----------------------------
-   Main Form component
-   ----------------------------- */
 export default function Form() {
   const { homeData, loading } = useHome();
   const form = homeData?.form;
   const fields: Field[] = form?.fields ?? [];
 
-  // -----------------------------
-  // Hooks: unconditionally declared (Rules of Hooks)
-  // -----------------------------
   const [values, setValues] = useState<Values>({});
   const [errors, setErrors] = useState<Errors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const initializedKeysRef = useRef<string[] | null>(null);
 
-  // Initialize form values when fields change *in shape* (not reference).
   useEffect(() => {
     const keys = fields.map((f) => f.name);
     const prev = initializedKeysRef.current;
-
-    // if not initialized yet OR keys changed (length or any name differs), initialize
     const needInit =
       !prev || prev.length !== keys.length || keys.some((k, i) => prev[i] !== k);
 
     if (needInit) {
       const initial: Values = {};
-      keys.forEach((k) => {
-        initial[k] = "";
-      });
+      keys.forEach((k) => (initial[k] = ""));
       setValues(initial);
       setErrors({});
       setSubmitted(false);
+      setSubmitError(null);
       initializedKeysRef.current = keys;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fields]);
 
-  // treat as loading when hook reports loading or form isn't yet available
   const isLoading = Boolean(loading) || !form;
 
-  // If there's no form and we're not loading, nothing to render
   if (!form && !loading) return null;
 
-  // Loading skeleton (returned after hooks are declared)
   if (isLoading) {
     return (
       <div className="max-w-[1140px] mx-auto mt-20 mb-20 px-4" aria-busy="true">
@@ -86,7 +72,6 @@ export default function Form() {
     );
   }
 
-  /* ---------- helpers ---------- */
   const isRequired = (f: Field) =>
     Boolean((f.placeholder || f.label || "").toString().trim().endsWith("*"));
 
@@ -116,12 +101,28 @@ export default function Form() {
     return Object.keys(newErrors).length === 0;
   }
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!validate()) return;
-    // TODO: replace with your API submit call
-    console.log("form submit", values);
-    setSubmitted(true);
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      const response = await submitForm(values);
+      if (response.success) {
+        setSubmitted(true);
+        setValues(fields.reduce((acc, f) => ({ ...acc, [f.name]: "" }), {}));
+      } else {
+        setSubmitError("Submission failed. Please try again.");
+        console.error(response.error);
+      }
+    } catch (err) {
+      setSubmitError("Something went wrong. Please try again later.");
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -129,6 +130,16 @@ export default function Form() {
       <h2 className="text-[#c6ac83] text-4xl uppercase mb-8 text-center md:text-left">
         {form?.title}
       </h2>
+
+      {submitted && (
+        <p className="mb-6 text-green-500 font-semibold">
+          Your message has been sent successfully!
+        </p>
+      )}
+
+      {submitError && (
+        <p className="mb-6 text-rose-500 font-semibold">{submitError}</p>
+      )}
 
       <form onSubmit={handleSubmit} noValidate>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -181,9 +192,10 @@ export default function Form() {
         <div className="mt-6 flex items-center gap-4">
           <button
             type="submit"
-            className="inline-block bg-black text-white px-6 py-3 rounded capitalize font-semibold tracking-[1px] hover:opacity-95 transition cursor-pointer"
+            disabled={isSubmitting}
+            className="inline-block bg-black text-white px-6 py-3 rounded capitalize font-semibold tracking-[1px] hover:opacity-95 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Submit
+            {isSubmitting ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
@@ -191,10 +203,7 @@ export default function Form() {
   );
 }
 
-/* -----------------------------
-   Small presentational components
-   Kept in the same file for cleanliness
-   ----------------------------- */
+/* ----------------------------- Presentational Components ----------------------------- */
 
 function FieldWrapper({
   children,
@@ -246,11 +255,7 @@ function TextInput({
       value={value}
       onChange={onChange}
       placeholder={placeholder}
-      className="w-full border bg-[#F5F6F7] border-white/10 rounded px-3 py-3 
-                 text-black 
-                 placeholder:text-gray-500 
-                 focus:placeholder-transparent 
-                 focus:outline-none focus:ring-0"
+      className="w-full border bg-[#F5F6F7] border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-500 focus:placeholder-transparent focus:outline-none focus:ring-0"
       aria-required={placeholder?.trim().endsWith("*") ?? false}
     />
   );
@@ -279,11 +284,7 @@ function TextareaInput({
       onChange={onChange}
       placeholder={placeholder}
       rows={rows}
-      className="w-full bg-[#F5F6F7] border border-white/10 rounded px-3 py-3 
-                 text-black 
-                 placeholder:text-gray-500 
-                 focus:placeholder-transparent 
-                 focus:outline-none focus:ring-0"
+      className="w-full bg-[#F5F6F7] border border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-500 focus:placeholder-transparent focus:outline-none focus:ring-0"
       aria-required={placeholder?.trim().endsWith("*") ?? false}
     />
   );
