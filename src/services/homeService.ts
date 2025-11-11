@@ -90,7 +90,7 @@ export async function fetchHome(): Promise<GlobalData> {
     const res = await fetch(url, {
       headers,
       // Next.js-specific option — harmless in browser; adjust/remove if not using Next
-      next: { revalidate: 100 },
+      next: { revalidate: 60 * 60 }, // revalidate every hour
     });
 
     if (!res.ok) {
