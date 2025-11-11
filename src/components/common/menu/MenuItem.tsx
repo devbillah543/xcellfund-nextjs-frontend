@@ -2,7 +2,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Popover, Transition, Disclosure } from "@headlessui/react";
-import { FaPlus,FaCaretRight } from "react-icons/fa";
+import { FaPlus } from "react-icons/fa";
+import { RxCaretRight } from "react-icons/rx";
 import clsx from "clsx";
 import LinkItem from "../LinkItem";
 
@@ -120,7 +121,7 @@ export default function MenuItem({ item }: { item: any }) {
                 className="w-full text-left flex items-center gap-2 text-black"
                 fontSize={16}
               />
-              <FaCaretRight
+              <RxCaretRight
                 className={clsx("w-3 h-3 ml-1 transition-transform duration-200 text-black")}
                 aria-hidden
               />
