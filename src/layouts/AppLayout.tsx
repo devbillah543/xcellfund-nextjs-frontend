@@ -1,20 +1,27 @@
-'use client'
+'use client';
 
-import React from "react"
-import { ThemeProvider } from "next-themes"
-// import ThemeToggle from '@/components/common/ThemeToggle'
+import React, { ReactNode } from "react";
+import { ThemeProvider } from "next-themes";
+import { GlobalProvider } from "@/providers/GlobalProvider";
+import { AppProps } from "next/app";
+import Header from "@/components/common/header/Header";
+import Footer from "@/components/common/footer/Footer";
+interface AppLayoutProps extends AppProps {
+  children: ReactNode;
+}
 
-export default function AppLayout({ children }: { children: React.ReactNode }) {
+export default function AppLayout({ children }: AppLayoutProps) {
   return (
     <ThemeProvider
-      attribute="class"       // attaches .light or .dark to <html>
-      defaultTheme="system"   // can be "system" or "light"
+      attribute="class"       // adds .light/.dark to <html>
+      defaultTheme="system"   // "system" or "light"
       enableSystem
     >
-      <div className="p-4 flex flex-col items-center gap-6">
-        {/* <ThemeToggle /> */}
+      <GlobalProvider>
+        <Header />
         {children}
-      </div>
+        <Footer />
+      </GlobalProvider>
     </ThemeProvider>
-  )
+  );
 }
