@@ -1,10 +1,10 @@
+import Contact from "@/pages/Contact";
+import { fetchContactUs } from "@/services/contactusService";
 import React from "react";
-import { fetchHome } from "@/services/homeService"; // Adjust import path if needed
-import Home from "@/pages/Home";
 
 // ✅ Dynamic metadata using Strapi SEO data
 export async function generateMetadata() {
-  const data = await fetchHome();
+  const data = await fetchContactUs();
   const seo = data.seo || {};
 
   return {
@@ -13,7 +13,7 @@ export async function generateMetadata() {
   };
 }
 
-// ✅ ISR Home Page
-export default async function HomePage() {
-  return <Home />;
+// ✅ ISR Contact Page
+export default async function ContactPage() {
+  return <Contact />;
 }

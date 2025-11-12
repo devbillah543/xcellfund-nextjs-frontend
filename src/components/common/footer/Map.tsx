@@ -1,11 +1,18 @@
 "use client";
 
 import { useGlobal } from '@/providers/GlobalProvider';
+import { usePathname } from 'next/navigation';
 import React from 'react';
 
-export default function Map() {
-    const { global, loading } = useGlobal();
+const allowedPaths = ['/contact-us', '/about-us', '/locations'];
 
+export default function Map() {
+    const pathname = usePathname();
+    const { global, loading } = useGlobal();
+    // Only render map on allowed paths
+    if (!allowedPaths.includes(pathname ?? '')) {
+        return null;
+    }
     // Show skeleton while loading
     if (loading || !global) {
         return (

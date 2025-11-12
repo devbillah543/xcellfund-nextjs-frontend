@@ -1,0 +1,299 @@
+"use client";
+
+import { useHome } from "@/hooks/useHome";
+import React, { useEffect, useRef, useState } from "react";
+import { submitForm } from "@/services/feeback";
+import { useContactUs } from "@/hooks/useContactus";
+
+type Field = {
+  id: number;
+  label?: string | null;
+  name: string;
+  type: string;
+  placeholder?: string | null;
+  iconify?: boolean;
+  icon_position?: string;
+  [key: string]: any;
+};
+
+type Values = Record<string, string>;
+type Errors = Record<string, string>;
+
+export default function Form() {
+  const { contactData, loading } = useContactUs();
+  const form = contactData?.form;
+  const fields: Field[] = form?.fields ?? [];
+
+  const [values, setValues] = useState<Values>({});
+  const [errors, setErrors] = useState<Errors>({});
+  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
+  const initializedKeysRef = useRef<string[] | null>(null);
+
+  useEffect(() => {
+    const keys = fields.map((f) => f.name);
+    const prev = initializedKeysRef.current;
+    const needInit =
+      !prev || prev.length !== keys.length || keys.some((k, i) => prev[i] !== k);
+
+    if (needInit) {
+      const initial: Values = {};
+      keys.forEach((k) => (initial[k] = ""));
+      setValues(initial);
+      setErrors({});
+      setSubmitted(false);
+      setSubmitError(null);
+      initializedKeysRef.current = keys;
+    }
+  }, [fields]);
+
+  const isLoading = Boolean(loading) || !form;
+
+  if (!form && !loading) return null;
+
+  if (isLoading) {
+    return (
+      <div className="w-full mt-20 mb-20 px-4" aria-busy="true">
+        <div className="h-10 w-1/4 bg-gray-300 rounded mb-6 animate-pulse" />
+        <form noValidate>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-2">
+                <div className="h-10 bg-gray-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+          <div className="h-20 w-full bg-gray-300 rounded mb-6 animate-pulse mt-6" />
+          <div className="mt-6 flex items-center gap-4">
+            <div className="h-10 w-40 bg-gray-300 rounded animate-pulse" />
+          </div>
+        </form>
+      </div>
+    );
+  }
+
+  const isRequired = (f: Field) =>
+    Boolean((f.placeholder || f.label || "").toString().trim().endsWith("*"));
+
+  function handleChange(
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    const { name, value } = e.target;
+    setValues((v) => ({ ...v, [name]: value }));
+    setErrors((err) => ({ ...err, [name]: "" }));
+  }
+
+  function validate() {
+    const newErrors: Errors = {};
+    fields.forEach((f) => {
+      const val = (values[f.name] || "").trim();
+      if (isRequired(f) && !val) {
+        newErrors[f.name] = "This field is required";
+      }
+      if (f.type === "email" && val) {
+        const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRe.test(val)) {
+          newErrors[f.name] = "Please enter a valid email";
+        }
+      }
+    });
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  }
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    setSubmitError(null);
+
+    try {
+      // submitForm expects a plain object with specific fields (e.g. name, email).
+      // Build a payload object from values and ensure common required keys exist.
+      const payload: Record<string, string> = { ...values };
+      // ensure common expected fields exist to satisfy the service typing
+      payload.name = payload.name ?? "";
+      payload.email = payload.email ?? "";
+      const response = await submitForm(payload as any);
+
+      if (response.success) {
+        setSubmitted(true);
+        setValues(fields.reduce((acc, f) => ({ ...acc, [f.name]: "" }), {}));
+      } else {
+        setSubmitError("Submission failed. Please try again.");
+        console.error(response.error);
+      }
+    } catch (err) {
+      setSubmitError("Something went wrong. Please try again later.");
+      console.error(err);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <div className="w-full">
+      <h2 className="text-black text-4xl uppercase mb-8 text-center md:text-left">
+        {form?.title}
+      </h2>
+
+      {submitted && (
+        <p className="mb-6 text-green-500 font-semibold">
+          Your message has been sent successfully!
+        </p>
+      )}
+
+      {submitError && (
+        <p className="mb-6 text-rose-500 font-semibold">{submitError}</p>
+      )}
+
+      <form onSubmit={handleSubmit} noValidate>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {fields.map((f) => {
+            const key = f.name;
+            const value = values[key] ?? "";
+            const required = isRequired(f);
+            const placeholder = f.placeholder ?? "";
+            const id = `field_${f.id}_${f.name}`;
+
+            if (f.type === "textarea") {
+              return (
+                <div key={f.id} className="md:col-span-2">
+                  <FieldWrapper label={f.label} required={required} htmlFor={id}>
+                    <TextareaInput
+                      id={id}
+                      name={key}
+                      value={value}
+                      placeholder={placeholder.replace(/\*$/, "")}
+                      onChange={handleChange}
+                    />
+                  </FieldWrapper>
+                  {errors[key] && (
+                    <p className="mt-1 text-sm text-rose-400">{errors[key]}</p>
+                  )}
+                </div>
+              );
+            }
+
+            return (
+              <div key={f.id}>
+                <FieldWrapper label={f.label} required={required} htmlFor={id}>
+                  <TextInput
+                    id={id}
+                    name={key}
+                    type={f.type === "email" ? "email" : "text"}
+                    value={value}
+                    placeholder={placeholder}
+                    onChange={handleChange}
+                  />
+                </FieldWrapper>
+                {errors[key] && (
+                  <p className="mt-1 text-sm text-rose-400">{errors[key]}</p>
+                )}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className="mt-6 flex items-center gap-4">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="inline-block bg-black text-white px-6 py-3 rounded capitalize font-semibold tracking-[1px] hover:opacity-95 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isSubmitting ? "Submitting..." : "Submit"}
+          </button>
+        </div>
+      </form>
+    </div>
+  );
+}
+
+/* ----------------------------- Presentational Components ----------------------------- */
+
+function FieldWrapper({
+  children,
+  label,
+  required,
+  htmlFor,
+}: {
+  children: React.ReactNode;
+  label?: string | null;
+  required?: boolean;
+  htmlFor?: string;
+}) {
+  return (
+    <>
+      {label && (
+        <label
+          htmlFor={htmlFor}
+          className="block text-sm font-medium mb-1 text-white/80"
+        >
+          {label}
+          {required && <span className="ml-1 text-[#c6ac83]">*</span>}
+        </label>
+      )}
+      {children}
+    </>
+  );
+}
+
+function TextInput({
+  id,
+  name,
+  type = "text",
+  value,
+  placeholder,
+  onChange,
+}: {
+  id?: string;
+  name: string;
+  type?: string;
+  value: string;
+  placeholder?: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}) {
+  return (
+    <input
+      id={id}
+      name={name}
+      type={type}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      className="w-full border bg-[#F5F6F7] border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-500 focus:placeholder-transparent focus:outline-none focus:ring-0"
+      aria-required={placeholder?.trim().endsWith("*") ?? false}
+    />
+  );
+}
+
+function TextareaInput({
+  id,
+  name,
+  value,
+  placeholder,
+  rows = 6,
+  onChange,
+}: {
+  id?: string;
+  name: string;
+  value: string;
+  placeholder?: string;
+  rows?: number;
+  onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+}) {
+  return (
+    <textarea
+      id={id}
+      name={name}
+      value={value}
+      onChange={onChange}
+      placeholder={placeholder}
+      rows={rows}
+      className="w-full bg-[#F5F6F7] border border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-500 focus:placeholder-transparent focus:outline-none focus:ring-0"
+      aria-required={placeholder?.trim().endsWith("*") ?? false}
+    />
+  );
+}

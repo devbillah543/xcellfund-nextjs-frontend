@@ -7,7 +7,7 @@ import FooterInfo from './FooterInfo'
 export default function Footer() {
   return (
     <div>
-      <footer className="w-full border-t border-white">
+      <footer className="w-full">
         <Map />
         <Subscription />
         <FooterInfo />
