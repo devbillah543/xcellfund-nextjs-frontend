@@ -136,7 +136,7 @@ export async function fetchHome(forceRevalidate = false): Promise<GlobalData> {
     try {
       const res = await fetch(url, {
         headers,
-        next: { revalidate: 60 * 60 }, // keep Next.js option if applicable
+        next: { revalidate: 60 * 60 * 1000 }, // keep Next.js option if applicable
       });
 
       if (!res.ok) {

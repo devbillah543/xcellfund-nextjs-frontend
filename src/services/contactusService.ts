@@ -151,7 +151,7 @@ export async function fetchContactUs(
     try {
       const res = await fetch(url, {
         headers,
-        next: { revalidate: 60 * 60 }, // Next.js ISR hint (1h)
+        next: { revalidate: 60 * 60 * 1000 }, // Next.js ISR hint (1h)
       });
 
       if (!res.ok) {

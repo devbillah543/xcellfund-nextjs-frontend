@@ -137,7 +137,7 @@ export async function fetchInvestment(
     try {
       const res = await fetch(url, {
         headers,
-        next: { revalidate: 60 * 60 }, // Next.js ISR hint
+        next: { revalidate: 60 * 60 * 1000 }, // Next.js ISR hint
       });
 
       if (!res.ok) {
