@@ -5,7 +5,6 @@ export interface SeriesFundingData {
   seo: any | null;
   hero: any | null;
   content: any | null;
-  campaigns?: any | null;
   [key: string]: any;
 }
 
@@ -58,7 +57,6 @@ function normalizeSeriesFunding(raw: any): SeriesFundingData {
   const seo = candidate.seo ?? candidate.SEO ?? null;
   const hero = candidate.hero ?? candidate.Hero ?? null;
   const content = candidate.content ?? candidate.Content ?? null;
-  const campaigns = candidate.campaigns ?? candidate.Campaigns ?? null;
 
   const rest = { ...candidate };
   delete rest.seo;
@@ -67,14 +65,11 @@ function normalizeSeriesFunding(raw: any): SeriesFundingData {
   delete rest.Hero;
   delete rest.content;
   delete rest.Content;
-  delete rest.campaigns;
-  delete rest.Campaigns;
 
   return {
     seo,
     hero,
     content,
-    campaigns,
     ...rest,
   } as SeriesFundingData;
 }

@@ -130,16 +130,6 @@ export default function Hero({ hero, loading }: Props) {
           <div className="absolute inset-0 bg-gray-800/40" />
         )}
 
-        {/* overlay */}
-        <div
-          className="absolute inset-0"
-          aria-hidden="true"
-          style={{
-            background:
-              "linear-gradient(180deg, rgba(0,0,0,0.35) 0%, rgba(0,0,0,0.55) 60%, rgba(0,0,0,0.65) 100%)",
-          }}
-        />
-
         {/* centered text */}
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-5 md:px-8 z-10">
           <div className="text-white">
