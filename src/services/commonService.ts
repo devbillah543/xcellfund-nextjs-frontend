@@ -13,6 +13,10 @@ const endpointMap: Record<string, string> = {
   equityLineFunding: "/api/equity-line-funding",
   stockLoans: "/api/stock-loan",
   seriesDFunding: "/api/series-d-funding",
+  partnership: "/api/partnership",
+  partnershipProcess: "/api/partnership-process",
+  partnershipStrategy: "/api/partnership-strategy",
+  partnershipVsInvestment: "/api/partnership-vs-investment",
 };
 
 /**
