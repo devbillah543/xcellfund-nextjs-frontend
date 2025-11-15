@@ -13,7 +13,7 @@ export default function Contact() {
     <div className="w-full">
       <Hero hero={contactData?.hero} loading={loading} />
       <div className="w-full flex flex-col md:flex-row justify-between gap-8 mt-32 mb-20 max-w-[1140px] mx-auto px-4">
-        <div className="w-2/3">
+        <div className="w-full md:w-2/3">
             <Form />
         </div>
         <div className="w-1/3">
