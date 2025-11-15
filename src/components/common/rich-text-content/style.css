@@ -63,10 +63,13 @@
 
 /* Links */
 .page-content a {
-  color: #2563eb;
-  text-decoration: underline;
+  color: #c6ac83;
+  text-decoration: none;
 }
-.page-content a:hover { color: #1d4ed8; }
+.page-content a:hover { 
+  color: #c6ac83;
+  text-decoration: none;
+}
 
 /* Small adjustments for Elementor inline widget containers */
 .page-content .elementor-widget-container {
