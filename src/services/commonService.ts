@@ -17,6 +17,14 @@ const endpointMap: Record<string, string> = {
   partnershipProcess: "/api/partnership-process",
   partnershipStrategy: "/api/partnership-strategy",
   partnershipVsInvestment: "/api/partnership-vs-investment",
+  webTechnology: "/api/web-technology",
+  webPublication: "/api/web-publication",
+  webProperty: "/api/web-property",
+  saasSolution: "/api/saas-solution",
+  niche: "/api/niche",
+  mobileApplication: "/api/mobile-application",
+  internetAdvertising: "/api/internet-advertising",
+  desktopSoftware: "/api/desktop-software",
 };
 
 /**

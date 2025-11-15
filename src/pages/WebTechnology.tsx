@@ -6,8 +6,8 @@ import RichtextContent from "@/components/common/rich-text-content/RichtextConte
 import { useCommonPattern } from "@/hooks/useCommonPattern";
 import React from "react";
 
-export default function EquityLineFunding() {
-  const { data, loading, error } = useCommonPattern("equityLineFunding");
+export default function WebTechnology() {
+  const { data, loading, error } = useCommonPattern("webTechnology");
   return (
     <div>
       <Hero hero={data?.hero} loading={loading} />

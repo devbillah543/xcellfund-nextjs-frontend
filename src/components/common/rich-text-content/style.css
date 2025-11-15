@@ -144,6 +144,28 @@
   color: #e5dacc;
   display: inline-block;
 }
+
+.page-content .list-tick li {
+  position: relative;
+  padding-left: 28px;
+  margin-bottom: 8px;
+  line-height: 1.35;
+}
+
+.page-content .list-tick li::before {
+  content: "\f00c";
+  font-family: "FontAwesome";
+  font-weight: normal;
+  position: absolute;
+  left: 0;
+  top: 0.3em;
+  font-size: 16px;
+  color: #00486A;
+  display: inline-block;
+}
+strong {
+  font-weight: 600;
+}
 @media (min-width: 992px) {
   div[data-xcell="investment-item"] {
     flex: 1 1 calc(33.333% - 1rem) !important;
