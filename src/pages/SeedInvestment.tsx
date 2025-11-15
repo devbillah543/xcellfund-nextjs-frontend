@@ -2,7 +2,7 @@
 
 import BannerSection from "@/components/common/BannerSection";
 import Hero from "@/components/common/Hero";
-import RichtextContent from "@/components/seed-investment/RichtextContent";
+import RichtextContent from "@/components/common/rich-text-content/RichtextContent";
 import { useCommonPattern } from "@/hooks/useCommonPattern";
 import React from "react";
 

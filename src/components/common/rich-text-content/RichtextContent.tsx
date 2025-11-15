@@ -7,7 +7,10 @@ interface RichtextContentProps {
   loading?: boolean;
 }
 
-export default function RichtextContent({ content, loading }: RichtextContentProps) {
+export default function RichtextContent({
+  content,
+  loading,
+}: RichtextContentProps) {
   if (loading || !content) {
     return (
       <div className="space-y-4 animate-pulse">

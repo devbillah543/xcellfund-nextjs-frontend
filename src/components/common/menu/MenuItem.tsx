@@ -4,20 +4,36 @@ import React, { useState, useEffect } from "react";
 import { Popover, Transition, Disclosure } from "@headlessui/react";
 import { FaPlus } from "react-icons/fa";
 import { RxCaretRight } from "react-icons/rx";
+import { usePathname } from "next/navigation";
 import clsx from "clsx";
 import LinkItem from "../LinkItem";
 
 export default function MenuItem({ item }: { item: any }) {
+  const pathname = usePathname();
   const [isMobile, setIsMobile] = useState(false);
   const [hover, setHover] = useState(false); // <-- hover state for desktop
-
   // Detect mobile viewport width
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth < 1024); // lg breakpoint
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+   useEffect(() => {
+    // create a MediaQueryList for the lg breakpoint
+    const mql = window.matchMedia("(max-width: 1023.98px)"); // match Tailwind lg (1024px) below
+    // handler updates local state
+    const handleChange = (e: MediaQueryListEvent | MediaQueryList) => {
+      setIsMobile(e.matches);
+    };
+
+    // run once on mount
+    handleChange(mql);
+
+    // Prefer addEventListener when available; fall back to addListener for older browsers
+    if (typeof mql.addEventListener === "function") {
+      mql.addEventListener("change", handleChange as EventListener);
+      return () => mql.removeEventListener("change", handleChange as EventListener);
+    } else {
+      mql.addListener(handleChange as (e: MediaQueryListEvent) => void);
+      return () => mql.removeListener(handleChange as (e: MediaQueryListEvent) => void);
+    }
   }, []);
+
 
   const href =
     item.item?.url_type === "email"
@@ -29,6 +45,22 @@ export default function MenuItem({ item }: { item: any }) {
   const label = item.item?.label?.text ?? item.item?.label ?? "Menu";
   const newTab = !!(item.item?.open_in_new_tab ?? item.item?.new_tab ?? false);
   const hasSubmenu = Array.isArray(item.subitems) && item.subitems.length > 0;
+
+  // parent link
+  const isParentActive = pathname === href;
+
+  // child links
+  const isChildActive = item.subitems?.some((sub: any) => {
+    const subHref =
+      sub.url_type === "email"
+        ? `mailto:${sub.url}`
+        : sub.url_type === "tel"
+        ? `tel:${sub.url}`
+        : sub.url;
+
+    return pathname === subHref;
+  });
+  const isActive = isParentActive || isChildActive;
 
   // Desktop: Popover dropdown; Mobile: Disclosure accordion
   if (hasSubmenu && !isMobile) {
@@ -48,7 +80,9 @@ export default function MenuItem({ item }: { item: any }) {
                   href={href}
                   label={label}
                   newTab={newTab}
-                  className="flex items-center gap-2 text-white hover:border-b transition-all duration-200"
+                  className={clsx("flex items-center gap-2 text-white hover:border-b transition-all duration-200",
+                    isActive ? "border-b" : ""
+                  )}
                   fontSize={16}
                 />
                 <FaPlus
@@ -84,14 +118,21 @@ export default function MenuItem({ item }: { item: any }) {
                           ? `tel:${sub.url}`
                           : sub.url;
                       const subLabel = sub.label?.text ?? sub.label;
-                      const subNewTab = !!(sub.open_in_new_tab ?? sub.new_tab ?? false);
+                      const subNewTab = !!(
+                        sub.open_in_new_tab ??
+                        sub.new_tab ??
+                        false
+                      );
+                      const isSubActive = pathname === subHref; 
                       return (
                         <div key={sub.id} className="py-1">
                           <LinkItem
                             href={subHref}
                             label={subLabel}
                             newTab={subNewTab}
-                            className="flex items-center gap-2 text-black hover:text-[#cfb795] hover:border-b hover:border-[#cfb795] transition-all duration-150 uppercase"
+                            className={clsx("flex items-center gap-2 text-black hover:text-[#cfb795] hover:border-b hover:border-[#cfb795] transition-all duration-150 uppercase",
+                              isSubActive ? "border-b border-[#cfb795] text-[#cfb795]!" : ""
+                            )}
                             fontSize={14}
                           />
                         </div>
@@ -118,11 +159,15 @@ export default function MenuItem({ item }: { item: any }) {
                 href={href}
                 label={label}
                 newTab={newTab}
-                className="w-full text-left flex items-center gap-2 text-black"
+                className={clsx("w-full text-left flex items-center gap-2 text-black",
+                    isActive ? "border-b" : ""
+                  )}
                 fontSize={16}
               />
               <RxCaretRight
-                className={clsx("w-3 h-3 ml-1 transition-transform duration-200 text-black")}
+                className={clsx(
+                  "w-3 h-3 ml-1 transition-transform duration-200 text-black"
+                )}
                 aria-hidden
               />
             </Disclosure.Button>
@@ -136,14 +181,21 @@ export default function MenuItem({ item }: { item: any }) {
                       ? `tel:${sub.url}`
                       : sub.url;
                   const subLabel = sub.label?.text ?? sub.label;
-                  const subNewTab = !!(sub.open_in_new_tab ?? sub.new_tab ?? false);
+                  const subNewTab = !!(
+                    sub.open_in_new_tab ??
+                    sub.new_tab ??
+                    false
+                  );
+                  const isSubActive = pathname === subHref; 
                   return (
                     <div key={sub.id} className="py-2">
                       <LinkItem
                         href={subHref}
                         label={subLabel}
                         newTab={subNewTab}
-                        className="flex items-center gap-2 text-black"
+                        className={clsx("flex items-center gap-2 text-black uppercase",
+                          isSubActive ? "border-b border-[#cfb795] text-[#cfb795]!" : ""
+                        )}
                         fontSize={14}
                       />
                     </div>
@@ -164,7 +216,9 @@ export default function MenuItem({ item }: { item: any }) {
         href={href}
         label={label}
         newTab={newTab}
-        className="flex items-center gap-2 text-black md:text-white hover:border-b transition-all duration-200"
+        className={clsx("flex items-center gap-2 text-black md:text-white hover:border-b transition-all duration-200",
+          isActive ? "border-b" : ""
+        )}
         fontSize={16}
       />
     </div>

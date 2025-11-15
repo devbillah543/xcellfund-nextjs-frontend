@@ -2,7 +2,7 @@
 
 import BannerSection from "@/components/common/BannerSection";
 import Hero from "@/components/common/Hero";
-import RichtextContent from "@/components/private-placement/RichtextContent";
+import RichtextContent from "@/components/common/rich-text-content/RichtextContent";
 import { usePrivatePlacement } from "@/hooks/usePrivatePlacement";
 
 export default function PrivatePlacement() {

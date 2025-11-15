@@ -39,29 +39,6 @@
   max-width: 100% !important;
 }
 
-/* Flex containers created by CMS (often inline style display:flex) */
-.page-content [style*="display:flex"] {
-  display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: flex-start !important;
-  gap: 1.25rem !important; /* reduce gap for smaller screens */
-  margin: 1rem 0 !important;
-}
-
-/* Make those flex containers stack on small screens */
-@media (max-width: 768px) {
-  .page-content [style*="display:flex"] {
-    flex-direction: column !important;
-    gap: 1rem !important;
-  }
-
-  /* ensure any flex items become full width */
-  .page-content [style*="flex:1 1"] {
-    flex: 1 1 100% !important;
-    min-width: auto !important;
-  }
-}
-
 /* Headings: responsive scaling */
 .page-content h1 { font-size: clamp(1.5rem, 2.5vw, 2.25rem); line-height: 1.15; margin-top: 1.25rem; margin-bottom: .75rem; }
 .page-content h2 { font-size: clamp(1.25rem, 2vw, 1.75rem); line-height: 1.2; margin-top: 1.25rem; margin-bottom: .75rem; }
@@ -71,17 +48,6 @@
 .page-content p { margin: .75rem 0; line-height: 1.65; color: #374151; }
 /* .page-content ul, .page-content ol { margin: .75rem 0 1rem 1.25rem; }
 .page-content li { margin-bottom: .5rem; } */
-
-/* Blockquote styling */
-.page-content blockquote {
-  border-left: 4px solid #d1d5db;
-  background: #f9fafb;
-  padding: .9rem 1rem;
-  margin: 1rem 0;
-  color: #374151;
-  border-radius: .25rem;
-}
-
 /* Table responsive: wrap in scroll */
 .page-content table {
   width: 100% !important;
@@ -114,75 +80,77 @@
   margin-bottom: 1rem !important;
 }
 
-/* Special: make nested lists readable on mobile */
-@media (max-width: 520px) {
-  .page-content ul ul,
-  .page-content ol ol {
-    margin-left: 1rem !important;
-  }
-
-  .page-content h1, .page-content h2 {
-    text-align: left !important;
-  }
-}
-
-/* Optional: nicer default font / color to match site */
-.page-content { color: #374151; font-family: "Lato", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; font-weight: 300; }
-
-/* If you use Tailwind, you can optionally style .page-content with .prose classes instead */
-
-
-/* base UL styles (you can keep your existing padding here) */
-ul {
-  margin: 0;
-}
-
-/* each li reserves left space for the icon */
-ul li {
+.page-content blockquote{
+  border: none !important;
   position: relative;
-  padding-left: 28px;    /* space for the icon */
+  padding-left: 2rem !important;
+  font-style: italic;
+  background-color: none !important;
+  margin: 2rem 0 !important;
+  font-weight: 600;
+}
+
+.page-content blockquote::before
+{
+    width: 19px;
+    height: 22px;
+    background-color: #949494;
+    -webkit-mask-image: url(/assets/icons/blockquote.png);
+    mask-image: url(/assets/icons/blockquote.png);
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    -webkit-mask-size: cover;
+    mask-size: cover;
+}
+
+.page-content .list-dash, .page-content .list-icon {
+  list-style: none;
+  padding-left: 0;
+}
+
+.page-content .list-dash li {
+  position: relative;
+  padding-left: 24px;
+  margin-bottom: 8px;
+  line-height: 1.45;
+}
+
+.page-content .list-dash li::before {
+  content: "—";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #555;
+  font-size: 18px;
+}
+
+.page-content .list-icon li {
+  position: relative;
+  padding-left: 28px;
   margin-bottom: 8px;
   line-height: 1.35;
 }
 
-/* icon inserted absolutely so it doesn't break nested lists */
-ul li::before {
+.page-content .list-icon li::before {
   content: "\f0a4";
   font-family: "FontAwesome";
   font-weight: normal;
   position: absolute;
   left: 0;
-  top: 0.5em;            /* tweak for vertical alignment */
+  top: 0.3em;
   font-size: 16px;
   color: #e5dacc;
-  line-height: 1;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: inline-block;
 }
-
-/* nested UL (1-level deep) indentation */
-ul ul {
-  margin: 6px 0 0 0;     /* small gap above nested list */
-  padding-left: 10px;    /* extra indent for nested items */
+@media (min-width: 992px) {
+  div[data-xcell="investment-item"] {
+    flex: 1 1 calc(33.333% - 1rem) !important;
+  }
 }
-
-/* smaller icon for nested lists for nicer hierarchy */
-ul ul li::before {
-  font-size: 14px;
-  color: #ddcfb8;
-  top: 0.5em;
-}
-
-/* deeper nesting if needed */
-ul ul ul {
-  padding-left: 16px;
-}
-ul ul ul li::before {
-  font-size: 13px;
-  color: #cfc2a9;
-  top: 0.14em;
-}
-strong {
-  font-weight: 600;
+@media (max-width: 600px) {
+  div[data-xcell="investment-item"] {
+    flex: 1 1 100% !important;
+  }
 }

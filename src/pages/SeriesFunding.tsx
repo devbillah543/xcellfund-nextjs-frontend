@@ -1,7 +1,7 @@
 "use client";
 import BannerSection from "@/components/common/BannerSection";
 import Hero from "@/components/common/Hero";
-import RichtextContent from "@/components/series-d-funding/RichtextContent";
+import RichtextContent from "@/components/common/rich-text-content/RichtextContent";
 import { useSeriesFunding } from "@/hooks/useSeriesFunding";
 import React from "react";
 
