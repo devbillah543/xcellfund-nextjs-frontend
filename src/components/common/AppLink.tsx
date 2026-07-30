@@ -12,6 +12,21 @@ type Props = {
   children?: React.ReactNode;
 };
 
+function fallbackNameFromUrl(url: string, type?: Props["type"]) {
+  if (type === "email") return "Email";
+  if (type === "phone") return "Phone";
+  try {
+    const host = new URL(url).hostname.replace(/^www\./, "");
+    if (host.includes("linkedin")) return "LinkedIn";
+    if (host.includes("facebook")) return "Facebook";
+    if (host.includes("instagram")) return "Instagram";
+    if (host === "x.com" || host.includes("twitter")) return "X";
+    return host || undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 export default function AppLink({
   aria_label,
   external,
@@ -25,13 +40,14 @@ export default function AppLink({
   const finalUrl =
     type === "email" ? `mailto:${url}` : type === "phone" ? `tel:${url}` : url;
 
-  const hasVisibleLabel = Boolean(label?.trim());
-  const hasChildren = children != null && children !== false;
-
-  // Only set aria-label for icon-only / unlabeled links so it doesn't
-  // override visible text (fixes label-content-name-mismatch).
-  const accessibleName =
-    hasVisibleLabel || hasChildren ? undefined : aria_label;
+  // Text-only links: do not set aria-label (avoids label-content-name-mismatch).
+  // Icon/children links: always provide an accessible name.
+  const showsTextOnly = !children && Boolean(label?.trim());
+  const accessibleName = showsTextOnly
+    ? undefined
+    : aria_label?.trim() ||
+      label?.trim() ||
+      fallbackNameFromUrl(url, type);
 
   return (
     <Link
