@@ -16,7 +16,7 @@
     "@fortawesome/free-solid-svg-icons": "^7.1.0",
     "@fortawesome/react-fontawesome": "^3.1.1",
     "@headlessui/react": "^2.2.9",
-    "next": "16.0.5",
+    "next": "^16.2.12",
     "react": "19.2.0",
     "react-dom": "19.2.0"
   },
@@ -27,7 +27,7 @@
     "@types/react-dom": "^19",
     "baseline-browser-mapping": "^2.8.32",
     "eslint": "^9",
-    "eslint-config-next": "16.0.5",
+    "eslint-config-next": "^16.2.12",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
@@ -36,5 +36,11 @@
     "last 2 Firefox versions",
     "last 2 Safari versions",
     "last 2 Edge versions"
-  ]
+  ],
+  "overrides": {
+    "brace-expansion": "^5.0.8",
+    "minimatch": "^10.0.3",
+    "postcss": "^8.5.18",
+    "sharp": "^0.35.3"
+  }
 }
