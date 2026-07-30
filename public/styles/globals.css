@@ -3,6 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  color-scheme: only light;
 
   /* Custom Sand color shades */
   --sand-50: #fcfaf7;
@@ -21,16 +22,15 @@
   --muted-text: #5c6570; /* ~5.2:1 on white */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  color-scheme: only light;
+  background: #ffffff;
+  color: #171717;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
+  background: #ffffff;
+  color: #171717;
   font-family: var(--font-lato);
 }
 /* Font utility classes */
