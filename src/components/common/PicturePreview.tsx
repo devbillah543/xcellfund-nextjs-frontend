@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client";
 import Image from "next/image";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
 import React from "react";
@@ -48,7 +47,7 @@ type Media = {
 type Props = {
   alt_text?: string;
   image: Media;
-  priority?: boolean; // LCP
+  priority?: boolean;
 };
 
 export default function PicturePreview({
@@ -56,20 +55,23 @@ export default function PicturePreview({
   image,
   priority = false,
 }: Props) {
-  // Choose responsive source URLs or fallback
-  const srcLarge = image.formats?.large ? getAbsoluteUrl(image.formats.large.url) : null;
-  const srcMedium = image.formats?.medium ? getAbsoluteUrl(image.formats.medium.url) : null;
-  const srcSmall = image.formats?.small ? getAbsoluteUrl(image.formats.small.url) : null;
-  const fallbackSrc = getAbsoluteUrl(image.url);
+  const src = getAbsoluteUrl(
+    image.formats?.large?.url ??
+      image.formats?.medium?.url ??
+      image.formats?.small?.url ??
+      image.url
+  );
 
   return (
     <div className="w-full h-full relative min-h-[350px] sm:min-h-[400px] md:min-h-[450px]">
       <Image
-        src={fallbackSrc}
+        src={src}
         alt={alt_text || image.alternativeText || "xcellfund"}
         fill
         sizes="(max-width: 750px) 100vw, (max-width: 1000px) 50vw, 33vw"
-        priority
+        priority={priority}
+        loading={priority ? "eager" : "lazy"}
+        quality={75}
         className="object-cover"
       />
     </div>

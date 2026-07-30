@@ -54,7 +54,7 @@ const Item = ({ title, subtitle, description, link }: Content) => {
       )}
 
       {title && (
-        <h3 className="text-2xl font-normal text-white mb-3 prata leading-9">{title}</h3>
+        <h2 className="text-2xl font-normal text-white mb-3 prata leading-9">{title}</h2>
       )}
 
       <p className="text-white mb-5 lato text-lg font-light leading-[30px] md:tracking-normal">
@@ -62,14 +62,15 @@ const Item = ({ title, subtitle, description, link }: Content) => {
       </p>
       {link && (
         <AppLink
-          aria_label={link.aria_label}
           external={link.external}
-          label={link.label ?? ""}
           target={link.target}
           type={link.type}
           url={link.url}
-          className="px-4 py-2.5 rounded bg-[#333743] text-white font-light hover:bg-(--sand-500) uppercase text-[15px] lato"
-        />
+          className="px-4 py-2.5 rounded bg-[#333743] text-white font-light hover:bg-(--sand-btn) uppercase text-[15px] lato"
+        >
+          <span className="sr-only">{title}: </span>
+          {link.label}
+        </AppLink>
       )}
     </div>
   );

@@ -4,7 +4,6 @@ import fetchApi from "@/services/ApiService";
 import { shouldShow } from "@/utils/shouldShow";
 import TopScroll from "@/components/top-scroll/TopScroll";
 
-// Dynamic imports with skeletons
 const Topbar = dynamic(() => import("@/components/common/Topbar"), {
   ssr: true,
   loading: () => <TopbarSkeleton contactsCount={2} socialsCount={3} />,
@@ -140,7 +139,10 @@ export default async function AppLayout({
         )}
 
         {shouldShow("map", pathname) && (
-          <Map embedLink={globalData?.data?.map?.embed_link} />
+          <Map
+            embedLink={globalData?.data?.map?.embed_link}
+            title="XCell Fund office location map"
+          />
         )}
 
         <Subscription

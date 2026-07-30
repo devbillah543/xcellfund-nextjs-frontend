@@ -24,13 +24,23 @@ export default function AppLink({
 }: Props) {
   const finalUrl =
     type === "email" ? `mailto:${url}` : type === "phone" ? `tel:${url}` : url;
+
+  const hasVisibleLabel = Boolean(label?.trim());
+  const hasChildren = children != null && children !== false;
+
+  // Only set aria-label for icon-only / unlabeled links so it doesn't
+  // override visible text (fixes label-content-name-mismatch).
+  const accessibleName =
+    hasVisibleLabel || hasChildren ? undefined : aria_label;
+
   return (
     <Link
       href={finalUrl}
-      aria-label={aria_label}
+      aria-label={accessibleName}
       target={target}
       className={className}
       prefetch={!external}
+      rel={external ? "noopener noreferrer" : undefined}
     >
       {children ? children : label}
     </Link>

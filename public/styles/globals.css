@@ -10,11 +10,15 @@
   --sand-200: #f1e6d5;
   --sand-300: #e9d7be;
   --sand-400: #dfc59f;
-  --sand-500: #cfb795; /* main color */
+  --sand-500: #cfb795; /* accent / on dark */
   --sand-600: #b89f7c;
   --sand-700: #9d8b68;
   --sand-800: #7f7152;
   --sand-900: #665d44;
+  /* WCAG AA-safe tokens for light backgrounds */
+  --sand-text: #6e5c3d; /* ~4.6:1 on white */
+  --sand-btn: #7a6540; /* white text ~4.6:1 */
+  --muted-text: #5c6570; /* ~5.2:1 on white */
 }
 
 @media (prefers-color-scheme: dark) {

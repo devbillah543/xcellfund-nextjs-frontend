@@ -107,7 +107,7 @@ export default function Subscription({ button, input, socials }: Props) {
                 />
                 <button
                   type="submit"
-                  className="bg-(--sand-500) text-white px-4 py-3 rounded-r hover:bg-(--sand-600) transition-colors duration-200 shrink-0 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
+                  className="bg-(--sand-btn) text-white px-4 py-3 rounded-r hover:bg-(--sand-800) transition-colors duration-200 shrink-0 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed"
                 >
                   {button.label}
                 </button>

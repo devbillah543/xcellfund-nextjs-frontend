@@ -1,5 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { config } from "@fortawesome/fontawesome-svg-core";
+
+config.autoAddCss = false;
 
 // Solid
 import {
@@ -12,6 +17,7 @@ import {
   faXmark,
   faBars,
   faPlus,
+  faMagnifyingGlass,
 } from "@fortawesome/free-solid-svg-icons";
 
 // Brands
@@ -40,6 +46,7 @@ const allowedIcons = {
   faXmark,
   faBars,
   faPlus,
+  faMagnifyingGlass,
 };
 
 type AllowedIconName = keyof typeof allowedIcons;
@@ -53,7 +60,6 @@ export default function Icon({ name, className = "" }: Props) {
   const icon = (allowedIcons as Record<string, any>)[name];
 
   if (!icon) {
-    console.warn(`Icon "${name}" is not allowed!`);
     return null;
   }
 

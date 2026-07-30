@@ -37,7 +37,7 @@ export default function Copyright(data: Props) {
                   target={item.target}
                   type={item.type}
                   url={item.url}
-                  className="inline-flex items-center text-[#909aa3] hover:text-(--sand-500) transition-colors duration-200 text-[14px]"
+                  className="inline-flex items-center text-(--muted-text) hover:text-(--sand-text) transition-colors duration-200 text-[14px]"
                 />
 
                 {/* Separator except last item */}
@@ -49,7 +49,7 @@ export default function Copyright(data: Props) {
           </nav>
 
           {/* Copyright */}
-          <p className="text-[14px] font-light text-[#909aa3] text-center md:text-right">
+          <p className="text-[14px] font-light text-(--muted-text) text-center md:text-right">
             {data?.copyright_text}
           </p>
         </div>

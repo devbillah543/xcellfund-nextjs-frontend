@@ -52,7 +52,6 @@ export default function Features({ data }: FeaturesProps) {
 const Item = ({ icon, title, link }: Feature) => {
   return (
     <AppLink
-      aria_label={link.aria_label}
       external={link.external}
       target={link.target}
       type={link.type}
@@ -63,7 +62,7 @@ const Item = ({ icon, title, link }: Feature) => {
                  hover:bg-[#333743] hover:shadow-md hover:shadow-[#C6AC83]/30 mb-2 md:mb-0 feature-title"
     >
       <Icon name={icon.name} className="text-(--sand-500) text-[40px]" />
-      <h2 className="prata text-(--sand-500) text-[20px] text-center leading-8 mt-2">{title}</h2>
+      <p className="prata text-(--sand-500) text-[20px] text-center leading-8 mt-2">{title}</p>
     </AppLink>
   );
 };

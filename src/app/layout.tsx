@@ -5,6 +5,8 @@ import { lato, prata, montserrat } from "@/fonts";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css";
 
+config.autoAddCss = false;
+
 export const metadata = {
   title: defaultSEO.title,
   description: defaultSEO.description,
@@ -97,10 +99,7 @@ export default async function RootLayout({
           content={metadata.twitter.description}
         />
         <meta name="twitter:image" content={metadata.twitter.images[0]} />
-        {/* Preconnects */}
-        <link rel="preconnect" href="https://xcellfund.com" crossOrigin="" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        {/* Preconnect removed: images are served via /_next/image on same origin */}
 
         {/* Additional Meta */}
         {metadata.additionalMetaTags.map((tag) => (

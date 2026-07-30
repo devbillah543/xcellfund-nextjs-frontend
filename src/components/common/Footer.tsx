@@ -73,8 +73,9 @@ export default function Footer({ address, branding, quicklinks }: Props) {
                 }
                 width={branding.brand.logo.width || 150}
                 height={branding.brand.logo.height || 50}
-                priority
-                unoptimized
+                loading="lazy"
+                quality={80}
+                sizes="150px"
               />
             )}
             {branding.company_description && (
@@ -127,7 +128,7 @@ export default function Footer({ address, branding, quicklinks }: Props) {
                     target={link.target}
                     type={link.type}
                     url={link.url}
-                    className="inline-flex items-center font-light text-(--sand-500) transition-colors duration-200 text-base"
+                    className="inline-flex items-center font-light text-(--sand-text) transition-colors duration-200 text-base"
                   />
                 );
               } else {

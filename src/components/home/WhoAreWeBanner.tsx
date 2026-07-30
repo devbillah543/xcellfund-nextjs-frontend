@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import Image from "next/image";
 import Icon from "@/components/common/Icon";
@@ -73,9 +71,11 @@ interface WhoAreWeBannerProps {
   images: Media[];
 }
 
-// Helper: pick best optimized image
 const getOptimizedImage = (image: Media) =>
-  image.formats?.small?.url ?? image.formats?.medium?.url ?? image.formats?.large?.url ?? image.url;
+  image.formats?.small?.url ??
+  image.formats?.medium?.url ??
+  image.formats?.large?.url ??
+  image.url;
 
 export default function WhoAreWeBanner({ data }: { data: WhoAreWeBannerProps }) {
   return (
@@ -97,22 +97,26 @@ export default function WhoAreWeBanner({ data }: { data: WhoAreWeBannerProps }) 
 
 const LeftContent = ({ subtitle, title, description, link }: Content) => (
   <div className="w-full flex flex-col items-start text-left">
-    <div className="uppercase font-bold text-xs tracking-[2px] text-[#909aa3] lato">
+    <div className="uppercase font-bold text-xs tracking-[2px] text-(--muted-text) lato">
       <div className="w-32 bg-[#cbd2d7] text-gray-400 h-px relative -left-44 top-2.5"></div>
       {subtitle}
     </div>
-     <h1 className="text-(--sand-500) text-4xl leading-[1.56em] mt-3 prata">{title}</h1>
-    <p className="text-[#333473] text-lg font-light lato leading-[30px] w-full md:w-[396px]">{description}</p>
+    <h2 className="text-(--sand-text) text-4xl leading-[1.56em] mt-3 prata">
+      {title}
+    </h2>
+    <p className="text-[#333473] text-lg font-light lato leading-[30px] w-full md:w-[396px]">
+      {description}
+    </p>
 
     {link?.url && link.label && (
       <AppLink
-        aria_label={link.aria_label}
         external={link.external}
         target={link.target}
         type={link.type}
         url={link.url}
-        className="mt-6 px-6 py-2 bg-(--sand-500) text-white rounded text-base font-normal lato sentence-case hover:bg-[#333743] transition-colors flex items-center gap-1"
+        className="mt-6 px-6 py-2 bg-(--sand-btn) text-white rounded text-base font-normal lato sentence-case hover:bg-[#333743] transition-colors flex items-center gap-1"
       >
+        <span className="sr-only">{title}: </span>
         <span>{link.label}</span>
         <Icon name={link.icon?.name || ""} />
       </AppLink>
@@ -127,50 +131,120 @@ const RightContent = ({ images }: { images: Media[] }) => {
 
   if (!images || images.length === 0) return null;
 
+  const leftW = left?.width || 259;
+  const leftH = left?.height || 209;
+
   return (
     <div className="w-full px-5 md:px-0 max-w-5xl relative top-[-40px]">
-      <div className="relative flex flex-col gap-0 md:grid md:grid-cols-8">
+      {/* Mobile — original stacked layout */}
+      <div className="flex flex-col gap-0 md:hidden">
         {hero && (
-          <div className="md:col-start-3 md:col-end-13 overflow-hidden shadow-lg h-60 md:h-[344px] relative">
+          <div className="overflow-hidden shadow-lg h-60 relative">
             <Image
               src={getAbsoluteUrl(getOptimizedImage(hero))}
               alt={hero.alternativeText || "Hero Image"}
               width={hero.width}
               height={hero.height}
               className="w-full h-full object-cover"
-              priority
-              quality={80}
+              quality={75}
               sizes="100vw"
+              loading="lazy"
             />
           </div>
         )}
-
         {left && (
-          <div className="md:col-start-2 md:col-end-4 md:-mt-10 overflow-hidden shadow-md h-60 md:h-[209px] relative">
+          <div className="overflow-hidden shadow-md h-60 relative">
             <Image
               src={getAbsoluteUrl(getOptimizedImage(left))}
               alt={left.alternativeText || "Left Image"}
-              width={left.width}
-              height={left.height}
+              width={leftW}
+              height={leftH}
               className="w-full h-full object-cover"
-              priority
               quality={70}
-              sizes="50vw"
+              sizes="100vw"
+              loading="lazy"
             />
           </div>
         )}
-
         {right && (
-          <div className="md:col-start-4 md:col-end-13 md:-mt-10 overflow-hidden shadow-md h-60 md:h-[286px] relative">
+          <div className="overflow-hidden shadow-md h-60 relative">
             <Image
               src={getAbsoluteUrl(getOptimizedImage(right))}
               alt={right.alternativeText || "Right Image"}
               width={right.width}
               height={right.height}
               className="w-full h-full object-cover"
-              priority
               quality={70}
-              sizes="70vw"
+              sizes="100vw"
+              loading="lazy"
+            />
+          </div>
+        )}
+      </div>
+
+      {/* Desktop — collage; left image uses uploaded 259×209 */}
+      <div className="relative hidden md:block" style={{ minHeight: 520 }}>
+        {hero && (
+          <div
+            className="absolute top-0 right-0 overflow-hidden shadow-lg"
+            style={{ width: "75%", height: 344 }}
+          >
+            <Image
+              src={getAbsoluteUrl(getOptimizedImage(hero))}
+              alt={hero.alternativeText || "Hero Image"}
+              width={hero.width}
+              height={hero.height}
+              className="w-full h-full object-cover"
+              quality={75}
+              sizes="55vw"
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {left && (
+          <div
+            className="absolute z-10 overflow-hidden shadow-md"
+            style={{
+              left: "8%",
+              top: 304, // sits under hero with overlap (344 - 40)
+              width: leftW,
+              height: leftH,
+            }}
+          >
+            <Image
+              src={getAbsoluteUrl(getOptimizedImage(left))}
+              alt={left.alternativeText || "Left Image"}
+              width={leftW}
+              height={leftH}
+              className="object-cover"
+              style={{ width: leftW, height: leftH }}
+              quality={70}
+              sizes={`${leftW}px`}
+              loading="lazy"
+            />
+          </div>
+        )}
+
+        {right && (
+          <div
+            className="absolute overflow-hidden shadow-md"
+            style={{
+              left: `calc(8% + ${leftW}px)`,
+              top: 304,
+              right: 0,
+              height: 286,
+            }}
+          >
+            <Image
+              src={getAbsoluteUrl(getOptimizedImage(right))}
+              alt={right.alternativeText || "Right Image"}
+              width={right.width}
+              height={right.height}
+              className="w-full h-full object-cover"
+              quality={70}
+              sizes="45vw"
+              loading="lazy"
             />
           </div>
         )}

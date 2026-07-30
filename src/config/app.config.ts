@@ -6,6 +6,7 @@ interface AppConfig {
   apiKey: string;
   assetUrl?: string;
   cacheTimeout: number; // in seconds
+  recaptchaSiteKey: string;
 }
 
 const appConfig: AppConfig = {
@@ -16,6 +17,10 @@ const appConfig: AppConfig = {
     ? parseInt(process.env.NEXT_CACHE_TIMEOUT, 10)
     : 3600, // default 1 hour
   assetUrl: process.env.NEXT_PUBLIC_ASSET_URL || process.env.NEXT_PUBLIC_API_URL || "http://localhost:1337",
+  // Google test key used if unset — replace with your site key in production
+  recaptchaSiteKey:
+    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
+    "6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI",
 };
 
 export default appConfig;

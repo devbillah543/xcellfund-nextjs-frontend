@@ -22,7 +22,7 @@ export default function Map({ embedLink, title = "xcellfund" }: Props) {
           }
         });
       },
-      { rootMargin: "200px" } // start loading slightly before entering viewport
+      { rootMargin: "50px", threshold: 0.01 } // load only when near viewport
     );
 
     observer.observe(containerRef.current);
@@ -46,7 +46,7 @@ export default function Map({ embedLink, title = "xcellfund" }: Props) {
           aria-label={title}
         />
       ) : (
-        <div className="absolute inset-0 w-full h-full flex items-center justify-center text-gray-500">
+        <div className="absolute inset-0 w-full h-full flex items-center justify-center text-(--muted-text) bg-gray-100">
           Loading map…
         </div>
       )}
