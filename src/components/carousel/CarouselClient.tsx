@@ -144,10 +144,10 @@ export default function CarouselClient({
       )}
 
       <div className="absolute left-2 md:left-6 top-1/2 -translate-y-1/2 z-20 hidden md:block">
-        <ScrollButton type="prev" onClick={nextSlide} />
+        <ScrollButton type="prev" onClick={prevSlide} />
       </div>
       <div className="absolute right-2 md:right-6 top-1/2 -translate-y-1/2 z-20 hidden md:block">
-        <ScrollButton type="next" onClick={prevSlide} />
+        <ScrollButton type="next" onClick={nextSlide} />
       </div>
     </div>
   );
