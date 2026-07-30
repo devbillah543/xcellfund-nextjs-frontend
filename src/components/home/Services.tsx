@@ -53,7 +53,7 @@ const Item = ({ title, description }: ItemProps) => {
                  transition-all duration-500 ease-in-out 
                  hover:-translate-y-3 hover:bg-[#333743] hover:shadow-lg hover:shadow-[#C6AC83]/40"
     >
-      <h3 className="prata text-xl font-normal leading-9 mb-2 transition-colors duration-300 ease-in-out group-hover:text-white w-2/3">
+      <h3 className="prata text-xl font-normal leading-9 mb-2 text-[#333743] transition-colors duration-300 ease-in-out group-hover:text-white w-2/3">
         {title}
       </h3>
       <p className="lato text-lg font-light text-justify text-[#333743] leading-[30px] tracking-[-1px] transition-colors duration-300 ease-in-out group-hover:text-white">

@@ -3,6 +3,8 @@ import React from "react";
 import fetchApi from "@/services/ApiService";
 import { shouldShow } from "@/utils/shouldShow";
 import TopScroll from "@/components/top-scroll/TopScroll";
+import DeferredHomeContact from "@/components/home/DeferredHomeContact";
+import DeferredSubscription from "@/components/home/DeferredSubscription";
 
 const Topbar = dynamic(() => import("@/components/common/Topbar"), {
   ssr: true,
@@ -40,15 +42,6 @@ const MapSkeleton = dynamic(
   { ssr: true }
 );
 
-const Subscription = dynamic(() => import("@/components/common/Subscription"), {
-  ssr: true,
-  loading: () => <SubscriptionSkeleton socialsCount={3} />,
-});
-const SubscriptionSkeleton = dynamic(
-  () => import("@/components/placeholder/SubscriptionSkeleton"),
-  { ssr: true }
-);
-
 const Footer = dynamic(() => import("@/components/common/Footer"), {
   ssr: true,
   loading: () => <FooterSkeleton />,
@@ -64,15 +57,6 @@ const Copyright = dynamic(() => import("@/components/common/Copyright"), {
 });
 const CopyrightSkeleton = dynamic(
   () => import("@/components/placeholder/CopyrightSkeleton"),
-  { ssr: true }
-);
-
-const HomeContact = dynamic(() => import("@/components/home/Contact"), {
-  ssr: true,
-  loading: () => <HomeContactSkeleton inputCount={5} />,
-});
-const HomeContactSkeleton = dynamic(
-  () => import("@/components/placeholder/HomeContactSkeleton"),
   { ssr: true }
 );
 
@@ -132,7 +116,7 @@ export default async function AppLayout({
         )}
 
         {pathname === "/" && (
-          <HomeContact
+          <DeferredHomeContact
             input={globalData?.data?.contact_form?.input}
             button={globalData?.data?.contact_form?.button}
           />
@@ -145,7 +129,7 @@ export default async function AppLayout({
           />
         )}
 
-        <Subscription
+        <DeferredSubscription
           input={globalData?.data?.subscription_section?.input}
           button={globalData?.data?.subscription_section?.button}
           socials={globalData?.data?.topnav?.socials}
