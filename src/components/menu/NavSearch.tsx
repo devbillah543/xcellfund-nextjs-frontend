@@ -117,7 +117,7 @@ export default function NavSearch({ links, className = "" }: Props) {
         onClick={() => setOpen((v) => !v)}
         aria-label={open ? "Close search" : "Open search"}
         aria-expanded={open}
-        className="text-white hover:opacity-80 transition-opacity cursor-pointer flex items-center justify-center w-8 h-8"
+        className="text-white hover:opacity-80 transition-opacity cursor-pointer flex items-center justify-center w-11 h-11 min-h-11 min-w-11"
       >
         {open ? (
           <CloseGlyph className="w-4 h-4" />

@@ -7,7 +7,7 @@ export const lato = Lato({
   style: ["normal"],
   display: "swap",
   variable: "--font-lato",
-  preload: true,
+  preload: false,
 });
 
 // Nav uses medium/normal
@@ -17,7 +17,7 @@ export const montserrat = Montserrat({
   style: ["normal"],
   display: "swap",
   variable: "--font-montserrat",
-  preload: true,
+  preload: false,
 });
 
 export const prata = Prata({

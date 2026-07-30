@@ -99,7 +99,9 @@ export default async function RootLayout({
           content={metadata.twitter.description}
         />
         <meta name="twitter:image" content={metadata.twitter.images[0]} />
-        {/* Preconnect removed: images are served via /_next/image on same origin */}
+        {/* Images primarily via same-origin /_next/image; CDN preconnect helps any direct assets */}
+        <link rel="preconnect" href="https://xcellfund.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://xcellfund.com" />
 
         {/* Additional Meta */}
         {metadata.additionalMetaTags.map((tag) => (

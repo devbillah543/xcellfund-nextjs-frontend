@@ -51,6 +51,7 @@ export default function Topbar({ data }: { data: any }) {
                     target={contact.target}
                     type={contact.type}
                     url={contact.url}
+                    className="inline-flex items-center justify-center min-h-6 min-w-6"
                   >
                     {contact.icon && (
                       <Icon
@@ -75,6 +76,7 @@ export default function Topbar({ data }: { data: any }) {
                     target={social.target}
                     type={social.type}
                     url={social.url}
+                    className="inline-flex items-center justify-center min-h-6 min-w-6"
                   >
                     {social.icon && (
                       <Icon

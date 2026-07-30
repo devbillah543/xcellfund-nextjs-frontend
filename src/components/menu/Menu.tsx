@@ -77,11 +77,11 @@ export default function Menu({ brand, menus }: Props) {
             <Image
               src={getAbsoluteUrl(brand.logo.url)}
               alt={brand.alt_text || brand.logo.alternativeText || "Logo"}
-              width={brand.logo.width || 202}
-              height={brand.logo.height || 52}
-              priority
+              width={202}
+              height={52}
               quality={80}
-              sizes="202px"
+              sizes="(max-width: 767px) 134px, 202px"
+              className="w-[134px] md:w-[202px] h-auto"
             />
           </AppLink>
           {/* Desktop Menu */}
@@ -104,7 +104,7 @@ export default function Menu({ brand, menus }: Props) {
                         type={item.menu.type}
                         url={item.menu.url}
                         label={item.menu.label || ""}
-                        className={`montserrat font-medium text-xs uppercase hover:border-b hover:border-white ${
+                        className={`montserrat font-medium text-xs uppercase inline-flex items-center min-h-6 hover:border-b hover:border-white ${
                           isParentActive ? "border-b border-white" : ""
                         }`}
                       />

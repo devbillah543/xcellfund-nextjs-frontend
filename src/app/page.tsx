@@ -13,7 +13,10 @@ import { HighlightsSkeleton } from "@/components/placeholder/HighlightsSkeleton"
 import Highlights from "@/components/home/Highlights";
 import Carousel from "@/components/carousel/Carousel";
 import AppLayout from "@/components/layouts/AppLayout";
-import { getCarouselImageUrl, buildLcpPreloadSrcSet } from "@/components/carousel/carouselImage";
+import {
+  getCarouselImageUrl,
+  buildLcpImageHref,
+} from "@/components/carousel/carouselImage";
 
 export const generateMetadata = async () => {
   const data = await fetchApi("home");
@@ -28,14 +31,22 @@ export default async function page() {
   return (
     <AppLayout pathname="/">
       {lcpSrc && (
-        <link
-          rel="preload"
-          as="image"
-          // Mobile-first responsive preload (avoids forcing a 1920px download on phones)
-          imageSrcSet={buildLcpPreloadSrcSet(lcpSrc, 70)}
-          imageSizes="100vw"
-          fetchPriority="high"
-        />
+        <>
+          <link
+            rel="preload"
+            as="image"
+            href={buildLcpImageHref(lcpSrc, 750, 70)}
+            media="(max-width: 767px)"
+            fetchPriority="high"
+          />
+          <link
+            rel="preload"
+            as="image"
+            href={buildLcpImageHref(lcpSrc, 1920, 70)}
+            media="(min-width: 768px)"
+            fetchPriority="high"
+          />
+        </>
       )}
       <Carousel items={homeData?.data?.carousel?.items} />
       <Suspense fallback={<FeatureSkeleton count={4} />}>

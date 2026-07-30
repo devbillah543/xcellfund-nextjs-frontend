@@ -62,43 +62,65 @@ function loadRecaptchaScript() {
 }
 
 export default function Recaptcha({ siteKey, onChange }: Props) {
+  const rootRef = useRef<HTMLDivElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const widgetIdRef = useRef<number | null>(null);
   const onChangeRef = useRef(onChange);
   onChangeRef.current = onChange;
 
   useEffect(() => {
-    if (!siteKey || !containerRef.current) return;
+    if (!siteKey || !rootRef.current) return;
 
     let cancelled = false;
+    let observer: IntersectionObserver | null = null;
 
-    loadRecaptchaScript()
-      .then(() => {
-        if (cancelled || !containerRef.current || !window.grecaptcha) return;
-        if (widgetIdRef.current !== null) return;
+    const mount = () => {
+      if (cancelled || !containerRef.current || widgetIdRef.current !== null) {
+        return;
+      }
 
-        // Avoid double-render if React Strict Mode remounts
-        containerRef.current.innerHTML = "";
+      loadRecaptchaScript()
+        .then(() => {
+          if (cancelled || !containerRef.current || !window.grecaptcha) return;
+          if (widgetIdRef.current !== null) return;
 
-        widgetIdRef.current = window.grecaptcha.render(containerRef.current, {
-          sitekey: siteKey,
-          callback: (token: string) => onChangeRef.current(token),
-          "expired-callback": () => onChangeRef.current(null),
-          "error-callback": () => onChangeRef.current(null),
-          theme: "light",
+          containerRef.current.innerHTML = "";
+          widgetIdRef.current = window.grecaptcha.render(containerRef.current, {
+            sitekey: siteKey,
+            callback: (token: string) => onChangeRef.current(token),
+            "expired-callback": () => onChangeRef.current(null),
+            "error-callback": () => onChangeRef.current(null),
+            theme: "light",
+          });
+        })
+        .catch(() => {
+          onChangeRef.current(null);
         });
-      })
-      .catch(() => {
-        onChangeRef.current(null);
-      });
+    };
+
+    // Keep reCAPTCHA off the critical path until the form is near the viewport
+    if (typeof IntersectionObserver === "undefined") {
+      mount();
+    } else {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (!entry?.isIntersecting) return;
+          observer?.disconnect();
+          mount();
+        },
+        { rootMargin: "200px 0px" }
+      );
+      observer.observe(rootRef.current);
+    }
 
     return () => {
       cancelled = true;
+      observer?.disconnect();
     };
   }, [siteKey]);
 
   return (
-    <div className="w-full overflow-x-auto">
+    <div ref={rootRef} className="w-full overflow-x-auto">
       <div ref={containerRef} className="g-recaptcha" />
     </div>
   );

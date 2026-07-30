@@ -62,7 +62,7 @@ export function MobileMenu({ open, menus }: Props) {
                   type={item.menu.type}
                   url={item.menu.url}
                   label={item.menu.label || ""}
-                  className={`montserrat font-medium text-xs uppercase hover:border-b hover:border-white ${isParentActive ? "border-b border-(--sand-500) text-(--sand-500)" : ""}`}
+                  className={`montserrat font-medium text-xs uppercase inline-flex items-center min-h-11 py-2 hover:border-b hover:border-white ${isParentActive ? "border-b border-(--sand-500) text-(--sand-500)" : ""}`}
                 />
                 {item.submenu.length > 0 && (
                   <Icon
