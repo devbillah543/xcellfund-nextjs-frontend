@@ -64,7 +64,7 @@ export default function Menu({ brand, menus }: Props) {
 
   return (
     <header className="w-full bg-transparent relative z-50 overflow-visible">
-      <div className="w-full max-w-[1140px] mx-auto px-6 md:px-6 relative overflow-visible">
+      <div className="w-full max-w-[1140px] mx-auto px-6 md:px-0 relative overflow-visible">
         <div className="flex justify-between items-center py-4 relative overflow-visible">
           {/* Logo */}
           <AppLink

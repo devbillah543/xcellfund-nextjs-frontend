@@ -25,7 +25,7 @@ export default function Copyright(data: Props) {
   return (
     <div className="w-full bg-white">
       <div className="w-full max-w-[1140px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-3 p-4">
+        <div className="flex flex-col md:flex-row justify-between items-center gap-3 py-4">
           {/* Nav Links */}
           <nav className="flex flex-wrap justify-center md:justify-start items-center gap-3">
             {data?.links?.map((item, index) => (
