@@ -37,7 +37,7 @@ const nextConfig: NextConfig = {
   },
 
   async headers() {
-    return [
+    const security = [
       {
         source: "/:path*",
         headers: [
@@ -50,6 +50,15 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+    ];
+
+    // Long-lived caching breaks CSS/JS updates in local Next.js/Turbopack dev.
+    if (process.env.NODE_ENV !== "production") {
+      return security;
+    }
+
+    return [
+      ...security,
       {
         source: "/_next/static/:path*",
         headers: [
@@ -81,7 +90,6 @@ const nextConfig: NextConfig = {
   },
 
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: [
       "@fortawesome/react-fontawesome",
       "@fortawesome/free-solid-svg-icons",

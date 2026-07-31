@@ -14,9 +14,9 @@ export default async function page() {
   return (
     <AppLayout pathname="/contact-us">
       <Hero
-        title={data?.data?.hero.title}
-        subtitle={data?.data?.hero.subtitle}
-        image={data?.data?.hero.background_image}
+        title={data?.data?.hero?.title}
+        subtitle={data?.data?.hero?.subtitle}
+        image={data?.data?.hero?.background_image}
       />
     </AppLayout>
   );

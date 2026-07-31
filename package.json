@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "sync:cms-classes": "node scripts/sync-cms-richtext-classes.mjs"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",

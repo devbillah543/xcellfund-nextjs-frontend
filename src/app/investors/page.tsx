@@ -16,9 +16,9 @@ export default async function page() {
   return (
     <AppLayout pathname="/investors">
       <Hero
-        title={data?.data?.hero.title}
-        subtitle={data?.data?.hero.subtitle}
-        image={data?.data?.hero.background_image}
+        title={data?.data?.hero?.title}
+        subtitle={data?.data?.hero?.subtitle}
+        image={data?.data?.hero?.background_image}
       />
       <section className="max-w-[1140px] mx-auto px-5 md:px-0 py-20">
         <h2 className="text-[#232325] text-3xl prata font-normal leading-10 sentence-case mb-5 text-center md:text-left">

@@ -1,0 +1,443 @@
+/*
+ * CMS rich-text layout for pages using RichtextContent.
+ * Unlayered on purpose so these beat Tailwind preflight for injected HTML.
+ * Utility block auto-synced from CMS APIs — run:
+ *   node scripts/sync-cms-richtext-classes.mjs
+ */
+
+.page-content figure,
+.page-content .image,
+.page-content .image_resized {
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+}
+
+.page-content [style*="width:1120px"] {
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+@media (min-width: 768px) {
+  .page-content .md\:w-\[1140px\],
+  .page-content .md\:w-\[1092px\] {
+    width: 100% !important;
+    max-width: 100%;
+  }
+}
+
+.page-content .list-icon,
+.page-content .list-tick,
+.page-content .list-dash {
+  list-style: none;
+  padding-left: 0;
+  margin-left: 0;
+}
+
+.page-content .list-icon li,
+.page-content .list-tick li,
+.page-content .list-dash li {
+  list-style: none;
+}
+
+.page-content .list-icon li::before {
+  content: "";
+  display: inline-block;
+  width: 1.2em;
+  height: 1.2em;
+  -webkit-mask-image: url(/assets/icons/hand.svg);
+  mask-image: url(/assets/icons/hand.svg);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  background-color: var(--sand-500);
+  margin-right: 0.5rem;
+  vertical-align: middle;
+  position: relative;
+  top: 0.15em;
+}
+
+.page-content .list-tick li::before {
+  content: "";
+  display: inline-block;
+  width: 1.5em;
+  height: 1.3em;
+  -webkit-mask-image: url(/assets/icons/tick.svg);
+  mask-image: url(/assets/icons/tick.svg);
+  -webkit-mask-size: cover;
+  mask-size: cover;
+  background-color: #00486a;
+  margin-right: 0.5rem;
+  vertical-align: middle;
+}
+
+/* —— CMS layout utilities (from live API content) —— */
+.page-content .border-\(--sand-600\) {
+  border-color: var(--sand-600);
+}
+.page-content .border-2 {
+  border-width: 2px;
+  border-style: solid;
+}
+.page-content .flex {
+  display: flex;
+}
+.page-content .flex-1 {
+  flex: 1 1 0%;
+}
+.page-content .flex-col {
+  flex-direction: column;
+}
+.page-content .font-bold {
+  font-weight: 700;
+}
+.page-content .font-light {
+  font-weight: 300;
+}
+.page-content .font-medium {
+  font-weight: 500;
+}
+.page-content .font-normal {
+  font-weight: 400;
+}
+.page-content .gap-4 {
+  gap: 1rem;
+}
+.page-content .gap-5 {
+  gap: 1.25rem;
+}
+.page-content .grid {
+  display: grid;
+}
+.page-content .grid-cols-1 {
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+/* Ensure grid children can shrink inside tracks */
+.page-content .grid > * {
+  min-width: 0;
+}
+
+/* cms-grid-cols-* rules are injected from RichtextContent for cascade priority */
+.page-content .h-auto {
+  height: auto;
+}
+.page-content .h-full {
+  height: 100%;
+}
+.page-content .italic {
+  font-style: italic;
+}
+.page-content .items-center {
+  align-items: center;
+}
+.page-content .items-start {
+  align-items: flex-start;
+}
+.page-content .justify-center {
+  justify-content: center;
+}
+.page-content .justify-end {
+  justify-content: flex-end;
+}
+.page-content .justify-start {
+  justify-content: flex-start;
+}
+.page-content .leading-\[27px\] {
+  line-height: 27px;
+}
+.page-content .leading-\[30px\] {
+  line-height: 30px;
+}
+.page-content .leading-\[38px\] {
+  line-height: 38px;
+}
+.page-content .leading-10 {
+  line-height: 2.5rem;
+}
+.page-content .max-w-\[495px\] {
+  max-width: 495px;
+}
+.page-content .max-w-\[586px\] {
+  max-width: 586px;
+}
+.page-content .max-w-\[960px\] {
+  max-width: 960px;
+}
+.page-content .mb-1 {
+  margin-bottom: 0.25rem;
+}
+.page-content .mb-2\.5 {
+  margin-bottom: 0.625rem;
+}
+.page-content .mb-4 {
+  margin-bottom: 1rem;
+}
+.page-content .mb-5 {
+  margin-bottom: 1.25rem;
+}
+.page-content .mt-10 {
+  margin-top: 2.5rem;
+}
+.page-content .mt-5 {
+  margin-top: 1.25rem;
+}
+.page-content .mt-8 {
+  margin-top: 2rem;
+}
+.page-content .my-5 {
+  margin-block: 1.25rem;
+}
+.page-content .my-8 {
+  margin-block: 2rem;
+}
+.page-content .object-cover {
+  object-fit: cover;
+}
+.page-content .p-2\.5 {
+  padding: 0.625rem;
+}
+.page-content .pb-2 {
+  padding-bottom: 0.5rem;
+}
+.page-content .pb-2\.5 {
+  padding-bottom: 0.625rem;
+}
+.page-content .pb-5 {
+  padding-bottom: 1.25rem;
+}
+.page-content .pb-6 {
+  padding-bottom: 1.5rem;
+}
+.page-content .ps-2 {
+  padding-inline-start: 0.5rem;
+}
+.page-content .ps-2\.5 {
+  padding-inline-start: 0.625rem;
+}
+.page-content .ps-5 {
+  padding-inline-start: 1.25rem;
+}
+.page-content .ps-7 {
+  padding-inline-start: 1.75rem;
+}
+.page-content .pt-10 {
+  padding-top: 2.5rem;
+}
+.page-content .pt-2\.5 {
+  padding-top: 0.625rem;
+}
+.page-content .pt-5 {
+  padding-top: 1.25rem;
+}
+.page-content .pt-7 {
+  padding-top: 1.75rem;
+}
+.page-content .pt-8 {
+  padding-top: 2rem;
+}
+.page-content .px-2\.5 {
+  padding-inline: 0.625rem;
+}
+.page-content .py-10 {
+  padding-block: 2.5rem;
+}
+.page-content .py-2 {
+  padding-block: 0.5rem;
+}
+.page-content .py-2\.5 {
+  padding-block: 0.625rem;
+}
+.page-content .py-3 {
+  padding-block: 0.75rem;
+}
+.page-content .py-4 {
+  padding-block: 1rem;
+}
+.page-content .py-5 {
+  padding-block: 1.25rem;
+}
+.page-content .text-\(--sand-500\) {
+  color: var(--sand-500);
+}
+.page-content .text-\(--sand-600\) {
+  color: var(--sand-600);
+}
+.page-content .text-\[\#232325\] {
+  color: #232325;
+}
+.page-content .text-\[\#333743\] {
+  color: #333743;
+}
+.page-content .text-\[23px\] {
+  font-size: 23px;
+}
+.page-content .text-\[28px\] {
+  font-size: 28px;
+}
+.page-content .text-\[30px\] {
+  font-size: 30px;
+}
+.page-content .text-2xl {
+  font-size: 1.5rem;
+  line-height: 2rem;
+}
+.page-content .text-base {
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+.page-content .text-center {
+  text-align: center;
+}
+.page-content .text-justify {
+  text-align: justify;
+}
+.page-content .text-left {
+  text-align: left;
+}
+.page-content .text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+.page-content .w-full {
+  width: 100%;
+}
+
+@media (min-width: 768px) {
+.page-content .md\:flex-row {
+  flex-direction: row !important;
+}
+.page-content .md\:gap-1 {
+  gap: 0.25rem;
+}
+.page-content .md\:gap-10 {
+  gap: 2.5rem;
+}
+.page-content .md\:gap-16 {
+  gap: 4rem;
+}
+.page-content .md\:gap-18 {
+  gap: 4.5rem;
+}
+.page-content .md\:gap-2 {
+  gap: 0.5rem;
+}
+.page-content .md\:gap-32 {
+  gap: 8rem;
+}
+.page-content .md\:gap-5 {
+  gap: 1.25rem;
+}
+.page-content .md\:gap-6 {
+  gap: 1.5rem;
+}
+.page-content .md\:gap-8 {
+  gap: 2rem;
+}
+.page-content .md\:h-\[249px\] {
+  height: 249px;
+}
+.page-content .md\:h-\[266px\] {
+  height: 266px;
+}
+.page-content .md\:h-\[284px\] {
+  height: 284px;
+}
+.page-content .md\:h-\[294px\] {
+  height: 294px;
+}
+.page-content .md\:h-\[308px\] {
+  height: 308px;
+}
+.page-content .md\:h-\[311px\] {
+  height: 311px;
+}
+.page-content .md\:h-\[341px\] {
+  height: 341px;
+}
+.page-content .md\:h-\[670px\] {
+  height: 670px;
+}
+.page-content .md\:justify-start {
+  justify-content: flex-start;
+}
+.page-content .md\:mt-5 {
+  margin-top: 1.25rem;
+}
+.page-content .md\:pe-2 {
+  padding-inline-end: 0.5rem;
+}
+.page-content .md\:pe-4 {
+  padding-inline-end: 1rem;
+}
+.page-content .md\:pe-5 {
+  padding-inline-end: 1.25rem;
+}
+.page-content .md\:px-0 {
+  padding-inline: 0;
+}
+.page-content .md\:px-1 {
+  padding-inline: 0.25rem;
+}
+.page-content .md\:px-2\.5 {
+  padding-inline: 0.625rem;
+}
+.page-content .md\:px-4 {
+  padding-inline: 1rem;
+}
+.page-content .md\:px-6 {
+  padding-inline: 1.5rem;
+}
+.page-content .md\:tracking-\[1px\] {
+  letter-spacing: 1px;
+}
+.page-content .md\:w-\[1092px\] {
+  width: 1092px;
+}
+.page-content .md\:w-\[1140px\] {
+  width: 1140px;
+}
+/* Fixed md:w-[Npx] only via .cms-md-flex-row helpers (see generated CSS) */
+.page-content .md\:w-1\/2 {
+  width: 50%;
+}
+.page-content .md\:w-md {
+  width: 28rem;
+}
+}
+
+/* Typography only — no default margin/padding; CMS utilities own spacing */
+.content {
+  font-family: var(--font-lato) !important;
+}
+
+/* Reset browser defaults (no !important so CMS py-/mb- utilities still win) */
+.page-content.content :is(p, h1, h2, h3, h4, h5, h6, ul, ol, li, figure, blockquote, section, article) {
+  margin: 0;
+  padding: 0;
+}
+
+.content p {
+  font-size: 18px;
+  font-weight: 300;
+  font-family: var(--font-lato) !important;
+  line-height: 30px;
+  color: #333743;
+}
+
+.content h2 {
+  font-size: 30px;
+  font-weight: 400;
+  font-family: var(--font-prata) !important;
+  color: #232325;
+  line-height: 2.5rem;
+}
+
+.content h3 {
+  font-size: 24px;
+  font-family: var(--font-prata) !important;
+}
+
+.content li {
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 27px;
+}
