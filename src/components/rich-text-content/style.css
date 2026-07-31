@@ -415,6 +415,11 @@
   padding: 0;
 }
 
+/* list-dash uses a left background dash — needs inset so it doesn't cover text */
+.page-content.content .list-dash > li {
+  padding-left: 32px;
+}
+
 .content p {
   font-size: 18px;
   font-weight: 300;
