@@ -21,7 +21,7 @@ export default function TextInput({
   value,
   onChange,
   placeholder,
-  className = "w-full border bg-[#F5F6F7] text-base font-light border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-300 focus:placeholder-transparent focus:outline-none focus:ring-0",
+  className = "w-full border bg-[#F5F6F7] text-base font-light border-white/10 rounded px-3 py-3 text-black placeholder:text-gray-700 focus:placeholder-transparent focus:outline-none focus:ring-0",
 }: Props) {
   const isRequired = placeholder?.trim().endsWith("*") ?? false;
 
