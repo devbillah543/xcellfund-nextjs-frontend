@@ -310,20 +310,23 @@ ${byBp.md.join("\n")}
     max-width: 50% !important;
     flex: 0 0 50% !important;
   }
-  .page-content .cms-md-flex-row > .cms-md-w-428,
-  .page-content .cms-md-flex-row .cms-md-w-428 {
+  .page-content .cms-md-flex-row > .cms-md-w-428:not(img) {
     width: 428px !important;
     max-width: 48% !important;
     flex: 0 0 auto !important;
+  }
+  .page-content img.cms-md-w-428 {
+    width: 428px !important;
+    max-width: 100% !important;
   }
   .page-content .cms-md-flex-row .cms-flex-1 {
     flex: 1 1 0% !important;
     min-width: 0 !important;
     width: auto !important;
   }
-  .page-content .cms-md-flex-row .cms-md-w-md img,
-  .page-content .cms-md-flex-row .cms-md-w-428 img,
-  .page-content .cms-md-flex-row [class*="cms-md-w-"] img {
+  /* Stretch images only when the fixed width is on a wrapper, not the <img> */
+  .page-content .cms-md-flex-row > .cms-md-w-md:not(img) img,
+  .page-content .cms-md-flex-row > .cms-md-w-428:not(img) img {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover !important;
@@ -359,9 +362,11 @@ ${byBp.lg.join("\n")}
   for (const raw of classes) {
     let m;
     if ((m = raw.match(/^md:w-\[(\d+)px\]$/)) && !FULL_BLEED.has(m[1])) {
-      // Only for flex image/text rows — never crush grid columns (e.g. web-properties)
+      // Wrapper flex columns may use max-width 48%; <img> with the size class must stay exact px
       widthHelpers.push(
-        `  .page-content .cms-md-flex-row .cms-md-w-${m[1]} { width: ${m[1]}px !important; max-width: 48% !important; flex: 0 0 auto !important; }`,
+        `  .page-content .cms-md-flex-row > .cms-md-w-${m[1]}:not(img) { width: ${m[1]}px !important; max-width: 48% !important; flex: 0 0 auto !important; }`,
+        `  .page-content .cms-md-flex-row > .cms-md-w-${m[1]}:not(img) img { width: 100% !important; height: 100% !important; object-fit: cover !important; }`,
+        `  .page-content img.cms-md-w-${m[1]} { width: ${m[1]}px !important; max-width: 100% !important; }`,
       );
     }
     if ((m = raw.match(/^md:h-\[(\d+)px\]$/))) {

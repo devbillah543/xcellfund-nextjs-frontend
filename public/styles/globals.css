@@ -312,18 +312,19 @@ blockquote::before {
 .list-tick li::before {
   content: "";
   display: inline-block;
-  width: .8em;
-  height: 0.8em;
-  mask-image: url(/assets/icons/tick.svg); /* your icon */
-  mask-size: cover;
+  width: 14px;
+  height: 14px;
+  -webkit-mask-image: url(/assets/icons/tick.svg);
+  mask-image: url(/assets/icons/tick.svg);
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
   background-color: #00486a;
-  margin-right: 1rem;
-  font-size: 30px;
-
-  /* Move the icon slightly down */
-  vertical-align: middle; /* baseline, middle, sub, text-bottom */
+  margin-right: 0.6rem;
+  vertical-align: middle;
   position: relative;
-  top: -2px; /* adjust this value as needed */
+  top: -1px;
 }
 
 ul {

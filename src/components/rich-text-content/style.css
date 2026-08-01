@@ -59,15 +59,18 @@
 .page-content .list-tick li::before {
   content: "";
   display: inline-block;
-  width: 1.5em;
-  height: 1.3em;
-  -webkit-mask-image: url(/assets/icons/tick.svg);
-  mask-image: url(/assets/icons/tick.svg);
-  -webkit-mask-size: cover;
+  width: .6em;
+  height: 0.6em;
+  mask-image: url(/assets/icons/tick.svg); /* your icon */
   mask-size: cover;
   background-color: #00486a;
-  margin-right: 0.5rem;
-  vertical-align: middle;
+  margin-right: 1rem;
+  font-size: 30px;
+
+  /* Move the icon slightly down */
+  vertical-align: middle; /* baseline, middle, sub, text-bottom */
+  position: relative;
+  top: -2px; /* adjust this value as needed */
 }
 
 /* —— CMS layout utilities (from live API content) —— */
