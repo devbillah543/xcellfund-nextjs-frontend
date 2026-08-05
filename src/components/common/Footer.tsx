@@ -72,14 +72,14 @@ export default function Footer({ address, branding, quicklinks }: Props) {
                   "xcellfund"
                 }
                 width={branding.brand.logo.width || 150}
-                height={branding.brand.logo.height || 50}
+                height={branding.brand.logo.height || 117}
                 loading="lazy"
                 quality={80}
                 sizes="150px"
               />
             )}
             {branding.company_description && (
-              <p className="text-gray-800 text-lg font-light lato">
+              <p className="text-gray-800 text-lg font-light lato pt-5">
                 {branding.company_description}
               </p>
             )}

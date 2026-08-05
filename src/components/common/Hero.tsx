@@ -83,7 +83,7 @@ const Hero: React.FC<Props> = ({
 
       <div
         className="
-          relative z-10 px-5 py-5
+          relative z-10 px-0 py-5
           flex flex-col gap-3
           text-white
           items-start
