@@ -16,7 +16,7 @@ export default function Topbar({ data }: { data: any }) {
               contacts.map((contact: any) => (
                 <div
                   key={contact.id}
-                  className="flex flex-row items-center gap-2"
+                  className="flex flex-row items-center gap-2 md:ps-1"
                 >
                   {contact.icon && (
                     <Icon
