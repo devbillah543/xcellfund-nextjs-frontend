@@ -3,7 +3,8 @@ import RichtextContent from "@/components/rich-text-content/RichtextContent";
 import fetchApi from "@/services/ApiService";
 import { createMetadata } from "@/utils/generateMetadata";
 import React from "react";
-import Hero from "@/components/common/Hero";;
+import Hero from "@/components/common/Hero";
+import "./style.css";
 
 export const generateMetadata = async () => {
   const data = await fetchApi("investmentStrategy");
@@ -19,7 +20,7 @@ export default async function page() {
         subtitle={data?.data?.hero?.subtitle}
         image={data?.data?.hero?.background_image}
       />
-      <section className="max-w-[1140px] mx-auto px-5 md:px-6 py-10">
+      <section className="investment-strategy-page max-w-[1140px] mx-auto px-5 md:px-6 py-10">
         <RichtextContent content={data?.data?.content} />
       </section>
     </AppLayout>

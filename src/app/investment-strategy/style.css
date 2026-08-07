@@ -1,0 +1,24 @@
+/*
+ * Scoped to this page only via .investment-strategy-page.
+ *
+ * The shared CMS rich-text CSS (cms-utilities.generated.css) forces these
+ * text/image rows to a 50/50 column split with an oversized gap (it maps
+ * "gap-4 + md:flex-row" to a flat 4rem gap regardless of the CMS's actual
+ * md:gap-5), and does so with !important. Both overrides below need
+ * !important plus higher selector specificity to win against that.
+ */
+@media (min-width: 768px) {
+  .investment-strategy-page .page-content .cms-md-flex-row .cms-md-w-1-2:has(> img) {
+    width: auto !important;
+    max-width: none !important;
+    flex: 0 0 auto !important;
+  }
+  .investment-strategy-page .page-content .cms-md-flex-row .cms-md-w-1-2:not(:has(> img)) {
+    width: auto !important;
+    max-width: none !important;
+    flex: 1 1 0% !important;
+  }
+  .investment-strategy-page .page-content .cms-md-gap-16 {
+    gap: 1.25rem !important;
+  }
+}
