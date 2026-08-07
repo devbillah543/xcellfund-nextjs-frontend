@@ -2,6 +2,7 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import Icon from "@/components/common/Icon";
 
 type SearchLink = {
   id: number | string;
@@ -13,42 +14,6 @@ type Props = {
   links: SearchLink[];
   className?: string;
 };
-
-function SearchGlyph({ className = "", dark = false }: { className?: string; dark?: boolean }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke={dark ? "#111" : "currentColor"}
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-      aria-hidden
-    >
-      <circle cx="11" cy="11" r="7" />
-      <path d="M20 20l-3.5-3.5" />
-    </svg>
-  );
-}
-
-function CloseGlyph({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      className={className}
-      aria-hidden
-    >
-      <path d="M6 6l12 12M18 6L6 18" />
-    </svg>
-  );
-}
 
 export default function NavSearch({ links, className = "" }: Props) {
   const [open, setOpen] = useState(false);
@@ -66,12 +31,14 @@ export default function NavSearch({ links, className = "" }: Props) {
       .slice(0, 8);
   }, [links, query]);
 
+  const closeSearch = () => {
+    setOpen(false);
+    setQuery("");
+    setShowResults(false);
+  };
+
   useEffect(() => {
-    if (!open) {
-      setQuery("");
-      setShowResults(false);
-      return;
-    }
+    if (!open) return;
     const id = window.setTimeout(() => inputRef.current?.focus(), 10);
     return () => window.clearTimeout(id);
   }, [open]);
@@ -80,11 +47,11 @@ export default function NavSearch({ links, className = "" }: Props) {
     if (!open) return;
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") closeSearch();
     };
     const onPointerDown = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
-        setOpen(false);
+        closeSearch();
       }
     };
 
@@ -97,7 +64,7 @@ export default function NavSearch({ links, className = "" }: Props) {
   }, [open]);
 
   const goTo = (url: string) => {
-    setOpen(false);
+    closeSearch();
     router.push(url);
   };
 
@@ -114,15 +81,15 @@ export default function NavSearch({ links, className = "" }: Props) {
     <div ref={rootRef} className={`relative flex items-center ${className}`}>
       <button
         type="button"
-        onClick={() => setOpen((v) => !v)}
+        onClick={() => (open ? closeSearch() : setOpen(true))}
         aria-label={open ? "Close search" : "Open search"}
         aria-expanded={open}
         className="text-white font-bold hover:opacity-80 transition-opacity cursor-pointer flex items-center justify-end w-11 h-11 min-h-11 min-w-11"
       >
         {open ? (
-          <CloseGlyph className="w-5 h-5 font-bold" />
+          <Icon name="faXmark" className="text-sm font-bold text-white" />
         ) : (
-          <SearchGlyph className="w-5 h-5 text-white" />
+          <Icon name="faMagnifyingGlass" className="text-sm font-bold text-white" />
         )}
       </button>
 
@@ -185,7 +152,7 @@ export default function NavSearch({ links, className = "" }: Props) {
                 justifyContent: "center",
               }}
             >
-              <SearchGlyph className="w-4 h-4" dark />
+              <Icon name="faMagnifyingGlass" className="w-4 h-4 text-[#111]" />
             </button>
           </form>
 
