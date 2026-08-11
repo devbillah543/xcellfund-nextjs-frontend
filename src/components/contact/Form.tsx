@@ -228,7 +228,9 @@ export default function Form({
           <button
             type="submit"
             disabled={loading || (captchaEnabled && !captchaToken)}
-            className="lato text-[15px] inline-block bg-[#333743] text-white px-6 py-3 rounded capitalize font-normal hover:opacity-95 transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+            className={`lato text-[15px] inline-block bg-[#333743] text-white px-6 py-3 rounded capitalize font-normal transition cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed ${
+              variant === "login" ? "hover:bg-(--sand-500)" : "hover:opacity-95"
+            }`}
           >
             {loading ? loadingLabel : button.label}
           </button>

@@ -36,6 +36,7 @@ export default async function page() {
           errorMessage="The username or password you entered is incorrect. Please try again."
           successMessage="Login successful!"
           loadingLabel="Signing in..."
+          showCaptcha={Boolean(appConfig.recaptchaSiteKey)}
         />
       </section>
     </AppLayout>

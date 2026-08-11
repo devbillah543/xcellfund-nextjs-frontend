@@ -45,7 +45,7 @@ export default function TopScroll() {
     <>
       {show && (
         <button
-          className="bg-(--sand-btn) text-white p-3 fixed bottom-5 right-5 z-50 hover:bg-(--sand-800) transition-opacity duration-300 cursor-pointer"
+          className="bg-(--sand-500) text-white p-3 fixed bottom-5 right-5 z-50 hover:bg-(--sand-800) transition-opacity duration-300 cursor-pointer"
           onClick={handleClick}
           aria-label="Scroll to top"
         >
