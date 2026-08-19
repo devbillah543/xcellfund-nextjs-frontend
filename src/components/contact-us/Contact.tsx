@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 import Form from "@/components/contact/Form";
 import AppLink from "@/components/common/AppLink";
 
@@ -46,7 +47,7 @@ type Props = {
 
 export default function ContactusContact({ button, input, address }: Props) {
   return (
-    <div className="w-full max-w-[1140px] px-4 md:mx-auto py-12">
+    <Container className="py-12">
       <div className="flex flex-col md:flex-row gap-8">
         {/* Form: full width on mobile, flex-1 on desktop */}
         <div className="w-full md:flex-1">
@@ -84,6 +85,6 @@ export default function ContactusContact({ button, input, address }: Props) {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }

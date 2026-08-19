@@ -108,7 +108,7 @@ export default async function RootLayout({
           <meta key={tag.name} name={tag.name} content={tag.content} />
         ))}
       </head>
-      <body>
+      <body suppressHydrationWarning>
         {children}
         {/* JSON-LD */}
         <script

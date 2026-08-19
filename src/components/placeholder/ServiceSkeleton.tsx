@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 interface ServiceSkeletonProps {
   count: number;
@@ -6,11 +7,8 @@ interface ServiceSkeletonProps {
 
 export const ServiceSkeleton = ({ count = 4 }: ServiceSkeletonProps) => {
   return (
-    <div className="max-w-[1140px] mx-auto mb-10 px-5 md:px-0">
-      {/* Heading skeleton */}
+    <Container className="mb-10">
       <div className="w-64 h-8 bg-gray-200 rounded animate-pulse mx-auto md:mx-0 mb-12" />
-
-      {/* Skeleton grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {Array.from({ length: count }).map((_, i) => (
           <div
@@ -31,6 +29,6 @@ export const ServiceSkeleton = ({ count = 4 }: ServiceSkeletonProps) => {
           </div>
         ))}
       </div>
-    </div>
+    </Container>
   );
 };

@@ -4,6 +4,7 @@ import AppLink from "@/components/common/AppLink";
 import Hero from "@/components/common/Hero";
 import fetchApi from "@/services/ApiService";
 import { createMetadata } from "@/utils/generateMetadata";
+import Container from "@/components/common/Container";
 
 export const metadata = createMetadata({
   title: "Sitemap | XCell Fund",
@@ -71,7 +72,7 @@ export default async function SitemapPage() {
         subtitle={contactData?.data?.hero?.subtitle}
         image={contactData?.data?.hero?.background_image}
       />
-      <section className="max-w-[1140px] mx-auto px-5 md:px-0 py-16">
+      <Container as="section" className="py-16">
         <div className="columns-2 sm:columns-3 md:columns-4 gap-x-10">
           {groups.map((group) => (
             <div key={group.id} className="break-inside-avoid mb-9">
@@ -111,7 +112,7 @@ export default async function SitemapPage() {
             </div>
           ))}
         </div>
-      </section>
+      </Container>
     </AppLayout>
   );
 }

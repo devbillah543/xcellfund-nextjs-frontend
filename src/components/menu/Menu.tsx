@@ -8,6 +8,7 @@ import { MobileMenu } from "@/components/menu/MobileMenu";
 import NavSearch from "@/components/menu/NavSearch";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import { usePathname } from "next/navigation";
 
@@ -64,7 +65,7 @@ export default function Menu({ brand, menus }: Props) {
 
   return (
     <header className="w-full bg-transparent relative z-50 overflow-visible">
-      <div className="w-full max-w-[1140px] mx-auto px-6 md:px-0 relative overflow-visible">
+      <Container className="relative overflow-visible">
         <div className="flex justify-between items-center py-4 relative overflow-visible">
           {/* Logo */}
           <AppLink
@@ -150,7 +151,7 @@ export default function Menu({ brand, menus }: Props) {
             <MobileMenuButton open={open} toggle={toggleMenu} />
           </div>
         </div>
-      </div>
+      </Container>
       {/* Mobile Menu */}
       <MobileMenu open={open} close={closeMenu} menus={menus} brand={brand} />
     </header>

@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 type Props = {
   contactsCount?: number;
@@ -10,8 +11,8 @@ export default function TopbarSkeleton({
   socialsCount = 3,
 }: Props) {
   return (
-    <div className="bg-transparent w-full border-b border-gray-200 py-2 px-4 md:px-0">
-      <div className="max-w-[1140px] mx-auto">
+    <div className="bg-transparent w-full border-b border-gray-200 py-2">
+      <Container>
         <div className="flex flex-row justify-end gap-2 items-center md:justify-between md:gap-0">
           {/* LEFT: CONTACTS large screen */}
           <div className="hidden md:flex flex-row items-center gap-10">
@@ -45,7 +46,7 @@ export default function TopbarSkeleton({
             ))}
           </div>
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

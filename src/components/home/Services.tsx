@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 type Card = {
   id: number;
@@ -21,7 +22,7 @@ export default function Services({ data }: ServicesProps) {
   const cards: Card[] = data?.cards ?? [];
 
   return (
-    <div className="max-w-[1140px] mx-auto mb-10 px-10 md:px-6">
+    <Container className="mb-10">
       <h2 className="prata text-(--sand-text) font-normal text-4xl tracking-wide uppercase mb-12 text-center md:text-left mt-20 md:mt-0">
         {data?.heading}
       </h2>
@@ -36,7 +37,7 @@ export default function Services({ data }: ServicesProps) {
           />
         ))}
       </div>
-    </div>
+    </Container>
   );
 }
 

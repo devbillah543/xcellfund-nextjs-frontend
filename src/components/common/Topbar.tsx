@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import React from "react";
 
@@ -7,16 +8,15 @@ export default function Topbar({ data }: { data: any }) {
   const { contacts, socials } = data.topnav;
 
   return (
-    <div className="bg-transparent w-full border-b border-gray-500 py-2 px-6 md:px-6">
-      <div className="max-w-[1140px] mx-auto">
-        <div className="flex flex-row justify-end gap-2 items-center md:justify-between md:gap-0">
-          {/* LEFT: CONTACTS  large screen*/}
+    <div className="bg-transparent w-full border-b border-gray-500 py-2">
+      <Container className="flex flex-row justify-end gap-2 items-center md:justify-between md:gap-0">
+        {/* LEFT: CONTACTS  large screen*/}
           <div className="hidden md:flex-row md:items-center md:gap-10 md:flex">
             {contacts &&
               contacts.map((contact: any) => (
                 <div
                   key={contact.id}
-                  className="flex flex-row items-center gap-2 md:ps-1"
+                  className="flex flex-row items-center gap-2"
                 >
                   {contact.icon && (
                     <Icon
@@ -88,8 +88,7 @@ export default function Topbar({ data }: { data: any }) {
                 </div>
               ))}
           </div>
-        </div>
-      </div>
+      </Container>
     </div>
   );
 }

@@ -1,12 +1,13 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 export const WhoAreWeBannerSkeleton = () => {
   return (
     <div className="bg-white">
-      <div className="max-w-[1140px] mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-6">
+      <Container className="flex flex-col-reverse md:flex-row items-center justify-between gap-6">
 
         {/* Left Skeleton */}
-        <div className="w-full md:w-[35%] flex justify-center px-5 mb-10 md:justify-start">
+        <div className="w-full md:w-[35%] flex justify-center mb-10 md:justify-start">
           <LeftSkeleton />
         </div>
 
@@ -14,7 +15,7 @@ export const WhoAreWeBannerSkeleton = () => {
         <div className="w-full md:w-[65%] flex justify-center md:justify-start">
           <RightSkeleton />
         </div>
-      </div>
+      </Container>
     </div>
   );
 };
@@ -24,7 +25,7 @@ export const WhoAreWeBannerSkeleton = () => {
 ------------------------------------- */
 
 const LeftSkeleton = () => (
-  <div className="w-full px-5 md:px-0 animate-pulse">
+  <div className="w-full animate-pulse">
     {/* Subtitle */}
     <div className="w-28 h-4 bg-gray-300/20 rounded mb-4"></div>
 
@@ -47,7 +48,7 @@ const LeftSkeleton = () => (
 ------------------------------------- */
 
 const RightSkeleton = () => (
-  <div className="w-full px-5 md:px-0 max-w-5xl relative top-[-60px] animate-pulse">
+  <div className="w-full relative top-[-60px] animate-pulse">
     <div className="relative flex flex-col gap-4 md:grid md:grid-cols-8">
 
       {/* Main large hero image */}

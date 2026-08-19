@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import React from "react";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
 import { buildLcpImageHref } from "@/components/carousel/carouselImage";
@@ -78,14 +79,14 @@ export default function Banner({
 
   return (
     <div
-      className="relative w-full h-[400px] flex justify-center items-center text-center px-6 md:px-12 bg-cover bg-center bg-no-repeat bg-[#1a1a1a]"
+      className="relative w-full h-[400px] bg-cover bg-center bg-no-repeat bg-[#1a1a1a]"
       style={{ backgroundImage: `url('${bgUrl}')` }}
       role="img"
       aria-label={
         background_image.alternativeText || title || "Contact banner"
       }
     >
-      <div className="flex flex-col items-center justify-center gap-4">
+      <Container className="h-full flex flex-col items-center justify-center gap-4 text-center">
         <h2 className="text-5xl font-normal prata capitalize leading-14 md:leading-[1.2rem] mb-2 md:mb-5 text-white">
           {title}
         </h2>
@@ -104,7 +105,7 @@ export default function Banner({
             className="px-6 py-2 bg-[#333743] rounded text-[15px] font-light uppercase text-white hover:bg-(--sand-500) transition min-h-11 inline-flex items-center"
           />
         )}
-      </div>
+      </Container>
     </div>
   );
 }

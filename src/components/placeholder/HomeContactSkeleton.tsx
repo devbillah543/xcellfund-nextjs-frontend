@@ -1,14 +1,15 @@
 import React from "react";
+import Container from "@/components/common/Container";
 import FormSkeleton from "@/components/placeholder/FormSkeleton";
 
 type Props = {
-  inputCount: number; // number of placeholder inputs
+  inputCount: number;
 };
 
 export default function HomeContactSkeleton({ inputCount }: Props) {
   return (
-    <div className="w-full max-w-[1140px] px-4 md:mx-auto py-12">
+    <Container className="py-12">
       <FormSkeleton inputCount={inputCount} />
-    </div>
+    </Container>
   );
 }

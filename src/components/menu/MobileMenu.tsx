@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import { usePathname } from "next/navigation";
 
@@ -43,7 +44,7 @@ export function MobileMenu({ open, menus }: Props) {
 
   return (
     <div className="md:hidden bg-white w-full shadow-md border-t hamburger-animate-slideDown">
-      <div className="p-4 flex flex-col gap-3">
+      <Container className="py-4 flex flex-col gap-3">
         {menus.map((item) => {
           // Check if parent or any child is active
           const isChildActive = item.submenu.some((sub) => sub.url === pathname);
@@ -97,7 +98,7 @@ export function MobileMenu({ open, menus }: Props) {
             </div>
           );
         })}
-      </div>
+      </Container>
     </div>
   );
 }

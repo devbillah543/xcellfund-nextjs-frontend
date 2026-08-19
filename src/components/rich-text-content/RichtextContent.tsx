@@ -29,8 +29,12 @@ function enhanceClassValue(classValue: string): string {
   if (set.has("flex") && set.has("md:flex-row")) {
     set.add("cms-md-flex-row");
   }
-  if (set.has("md:w-md")) {
-    set.add("cms-md-w-md");
+  if (set.has("md:w-[1140px]") || set.has("md:w-[1092px]")) {
+    set.delete("md:px-6");
+    set.delete("md:px-4");
+    set.delete("md:px-2.5");
+    set.delete("md:px-1");
+    set.delete("md:px-0");
   }
   if (set.has("md:w-1/2")) {
     set.add("cms-md-w-1-2");

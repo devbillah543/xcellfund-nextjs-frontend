@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import AppLink from "@/components/common/AppLink";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
@@ -80,9 +81,9 @@ const getOptimizedImage = (image: Media) =>
 export default function WhoAreWeBanner({ data }: { data: WhoAreWeBannerProps }) {
   return (
     <div className="bg-white md:h-[631px]">
-      <div className="max-w-[1140px] mx-auto flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-6 px-10 md:px-0">
+      <Container className="flex flex-col-reverse md:flex-row items-center justify-between gap-10 md:gap-6">
         {/* Left (Text) */}
-        <div className="w-full md:w-[35%] flex justify-center px-5 mb-10 md:justify-start">
+        <div className="w-full md:w-[35%] flex justify-center mb-10 md:justify-start">
           <LeftContent {...data.content} />
         </div>
 
@@ -90,7 +91,7 @@ export default function WhoAreWeBanner({ data }: { data: WhoAreWeBannerProps }) 
         <div className="w-full md:w-[65%] flex justify-center md:justify-start">
           <RightContent images={data.images || []} />
         </div>
-      </div>
+      </Container>
     </div>
   );
 }
@@ -135,7 +136,7 @@ const RightContent = ({ images }: { images: Media[] }) => {
   const leftH = left?.height || 209;
 
   return (
-    <div className="w-full px-5 md:px-0 max-w-5xl relative top-[-40px]">
+    <div className="w-full relative top-[-40px]">
       {/* Mobile — original stacked layout */}
       <div className="flex flex-col gap-0 md:hidden">
         {hero && (

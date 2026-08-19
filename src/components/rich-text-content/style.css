@@ -18,11 +18,22 @@
   max-width: 100% !important;
 }
 
+/*
+ * Strapi wraps pages in md:w-[1140px] + md:px-6. The app Container is already
+ * that column. Reset the first wrapper so body copy matches header/footer.
+ */
+.site-container .page-content > :first-child {
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
 @media (min-width: 768px) {
   .page-content .md\:w-\[1140px\],
   .page-content .md\:w-\[1092px\] {
     width: 100% !important;
-    max-width: 100%;
+    max-width: 100% !important;
   }
 }
 

@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 import AppLink from "@/components/common/AppLink";
 
 type Icon = {
@@ -39,7 +40,7 @@ export default function WhoAreWe({ data }: { data: WhoAreWeProps }) {
                    items-center justify-center
                    py-16 md:py-0"
       >
-        <div className="w-full max-w-[1140px] mx-auto flex flex-col md:flex-row items-center justify-between gap-10 md:gap-6 px-10 md:px-6">
+        <Container className="flex flex-col md:flex-row items-center justify-between gap-10 md:gap-6">
           {/* Left */}
           <div className="w-full md:w-[35%] flex justify-center md:justify-start">
             <LeftContent {...data?.left_content} />
@@ -55,7 +56,7 @@ export default function WhoAreWe({ data }: { data: WhoAreWeProps }) {
           <div className="w-full md:w-[25%]">
             {/* Empty div to balance the flex layout */}
           </div>
-        </div>
+        </Container>
       </div>
     </div>
   );

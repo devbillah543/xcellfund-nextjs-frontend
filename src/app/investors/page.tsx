@@ -5,6 +5,7 @@ import fetchApi from "@/services/ApiService";
 import appConfig from "@/config/app.config";
 import { createMetadata } from "@/utils/generateMetadata";
 import React from "react";
+import Container from "@/components/common/Container";
 
 export const generateMetadata = async () => {
   const data = await fetchApi("investors");
@@ -20,7 +21,7 @@ export default async function page() {
         subtitle={data?.data?.hero?.subtitle}
         image={data?.data?.hero?.background_image}
       />
-      <section className="max-w-[1140px] mx-auto px-5 md:px-0 py-20">
+      <Container as="section" className="py-20">
         <h2 className="text-[#232325] text-3xl prata font-normal leading-10 sentence-case mb-5 text-center md:text-left">
           Investor Login
         </h2>
@@ -38,7 +39,7 @@ export default async function page() {
           loadingLabel="Signing in..."
           showCaptcha={Boolean(appConfig.recaptchaSiteKey)}
         />
-      </section>
+      </Container>
     </AppLayout>
   );
 }

@@ -4,6 +4,7 @@ import fetchApi from "@/services/ApiService";
 import { createMetadata } from "@/utils/generateMetadata";
 import React from "react";
 import Hero from "@/components/common/Hero";
+import Container from "@/components/common/Container";
 import "./style.css";
 
 export const generateMetadata = async () => {
@@ -20,9 +21,9 @@ export default async function page() {
         subtitle={data?.data?.hero?.subtitle}
         image={data?.data?.hero?.background_image}
       />
-      <section className="investment-strategy-page max-w-[1140px] mx-auto px-5 md:px-6 py-10">
+      <Container as="section" className="investment-strategy-page py-10">
         <RichtextContent content={data?.data?.content} />
-      </section>
+      </Container>
     </AppLayout>
   );
 }

@@ -1,8 +1,9 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 export default function FeatureSkeleton({ count }: { count: number }) {
   return (
-    <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto  relative top-12 md:top-[-100px] px-5 md:px-0">
+    <Container className="flex flex-wrap justify-center relative top-12 md:top-[-100px]">
       {[...Array(count)].map((_, i) => (
         <div
           key={i}
@@ -14,6 +15,6 @@ export default function FeatureSkeleton({ count }: { count: number }) {
           <div className="w-3/4 h-5 bg-gray-400/30 rounded"></div>
         </div>
       ))}
-    </div>
+    </Container>
   );
 }

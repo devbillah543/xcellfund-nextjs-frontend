@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 
 
 export const WhoAreWeSkeleton = () => {
@@ -8,9 +9,9 @@ export const WhoAreWeSkeleton = () => {
         className="bg-[radial-gradient(circle_at_center,#363e44_0%,#202326_100%)]
                    opacity-100 
                    transition-[background,border-radius,opacity] duration-300 
-                   py-16 md:py-24 px-6 md:px-0"
+                   py-16 md:py-24"
       >
-        <div className="max-w-[1140px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+        <Container className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Left Skeleton */}
           <div className="w-full md:w-[35%] flex justify-center md:justify-start">
             <LeftSkeleton />
@@ -26,7 +27,7 @@ export const WhoAreWeSkeleton = () => {
 
           {/* Empty div for layout balance */}
           <div className="w-full md:w-[25%]"></div>
-        </div>
+        </Container>
       </div>
     </div>
   );

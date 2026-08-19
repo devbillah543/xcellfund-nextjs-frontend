@@ -1,3 +1,4 @@
+import Container from "@/components/common/Container";
 import CarouselClient, { type CarouselItem } from "./CarouselClient";
 import { buildLcpImageHref, getCarouselImageUrl } from "./carouselImage";
 
@@ -31,18 +32,18 @@ export default function Carousel({ items, interval = 6000 }: CarouselProps) {
         aria-label={first.image.alternativeText || first.title}
       />
 
-      <div className="absolute inset-0 flex items-center justify-center px-6 md:px-[120px] text-white z-[1] pointer-events-none">
-        <div className="w-full max-w-[1140px] mx-auto flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 mt-24">
+      <div className="absolute inset-0 flex items-center text-white z-[1] pointer-events-none">
+        <Container className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 mt-24">
           <div className="flex flex-col justify-center items-center md:items-start text-center md:text-left">
-            <h1 className="text-4xl md:text-[62px] prata font-light leading-[39px] md:leading-[82px] max-w-[690px] mx-2 md:mx-0">
+            <h1 className="text-4xl md:text-[62px] prata font-light leading-[39px] md:leading-[82px] max-w-[690px]">
               {first.title}
             </h1>
             <div
-              className="lato text-[16px] md:text-2xl font-light leading-[25px] md:leading-9 mt-4 max-w-[725px] mx-2 md:mx-0"
+              className="lato text-[16px] md:text-2xl font-light leading-[25px] md:leading-9 mt-4 max-w-[725px]"
               dangerouslySetInnerHTML={{ __html: first.description }}
             />
           </div>
-        </div>
+        </Container>
       </div>
 
       <CarouselClient items={items} interval={interval} />

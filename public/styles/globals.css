@@ -34,6 +34,17 @@ body {
   color: #171717;
   font-family: var(--font-lato);
 }
+
+/*
+ * Global content column. Backgrounds stay full-bleed; nest inner content here.
+ * 1140px is the site’s established max-width (CMS layouts, header, footer).
+ */
+.site-container {
+  width: 100%;
+  max-width: 1140px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+}
 /* Font utility classes */
 .lato {
   font-family: var(--font-lato);

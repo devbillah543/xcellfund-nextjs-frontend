@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 import AppLink from "@/components/common/AppLink";
 
 type Icon = {
@@ -29,13 +30,13 @@ export default function Highlights({ data }: { data: Content[] }) {
 
   return (
     <div className="bg-transparent bg-[radial-gradient(at_center_center,#1d2022_0%,#202326_100%)] opacity-100 transition-[background,border-radius,opacity] duration-300">
-      <div className="max-w-[1140px] mx-auto py-12 px-6">
+      <Container className="py-12">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {list.map((item) => (
             <Item key={item.id} {...item} />
           ))}
         </div>
-      </div>
+      </Container>
     </div>
   );
 }

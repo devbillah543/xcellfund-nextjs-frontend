@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useLayoutEffect, useRef, useCallback } from "react";
 import Image from "next/image";
+import Container from "@/components/common/Container";
 import ScrollButton from "@/components/carousel/ScrollButton";
 import { getCarouselImageUrl } from "./carouselImage";
 
@@ -116,8 +117,8 @@ export default function CarouselClient({
             />
           </div>
 
-          <div className="absolute inset-0 flex items-center justify-center px-6 md:px-[120px] text-white">
-            <div className="w-full max-w-[1140px] mx-auto flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 mt-24">
+          <div className="absolute inset-0 flex items-center text-white">
+            <Container className="flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-10 mt-24">
               <div
                 className={`hidden md:block w-px bg-gray-400 ${animBorder}`}
                 style={{ height: `${lineHeight}px` }}
@@ -128,17 +129,17 @@ export default function CarouselClient({
                 ref={textRef}
               >
                 <h2
-                  className={`text-4xl md:text-[62px] prata font-light leading-[39px] md:leading-[82px] max-w-[690px] mx-2 md:mx-0 ${animTitle}`}
+                  className={`text-4xl md:text-[62px] prata font-light leading-[39px] md:leading-[82px] max-w-[690px] ${animTitle}`}
                 >
                   {slide.title}
                 </h2>
 
                 <div
-                  className={`lato text-[16px] md:text-2xl font-light leading-[25px] md:leading-9 mt-4 max-w-[725px] mx-2 md:mx-0 ${animDesc}`}
+                  className={`lato text-[16px] md:text-2xl font-light leading-[25px] md:leading-9 mt-4 max-w-[725px] ${animDesc}`}
                   dangerouslySetInnerHTML={{ __html: slide.description }}
                 />
               </div>
-            </div>
+            </Container>
           </div>
         </div>
       )}

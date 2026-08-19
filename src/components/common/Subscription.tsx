@@ -2,6 +2,7 @@
 "use client";
 import React, { useState } from "react";
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import appConfig from "@/config/app.config";
 
@@ -90,9 +91,8 @@ export default function Subscription({ button, input, socials }: Props) {
   };
 
   return (
-    <div className="w-full bg-[#2b3034] p-5">
-      <div className="w-full max-w-[1140px] mx-auto">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4 py-4">
+    <div className="w-full bg-[#2b3034] py-5">
+      <Container className="flex flex-col md:flex-row justify-between items-center gap-4 py-4">
           {/* Email Subscription */}
           <div className="w-full md:w-1/3">
             <form className="flex flex-col gap-2" onSubmit={handleSubmit}>
@@ -146,8 +146,7 @@ export default function Subscription({ button, input, socials }: Props) {
                 </div>
               ))}
           </nav>
-        </div>
-      </div>
+      </Container>
     </div>
   );
 }

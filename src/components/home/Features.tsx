@@ -1,4 +1,5 @@
 import React from "react";
+import Container from "@/components/common/Container";
 import Icon from "@/components/common/Icon";
 import AppLink from "@/components/common/AppLink";
 
@@ -34,7 +35,7 @@ export default function Features({ data }: FeaturesProps) {
   const features: Feature[] = (data as Feature[]) ?? [];
 
   return (
-    <div className="flex flex-wrap justify-center max-w-[1140px] mx-auto relative top-12 md:top-[-100px] px-12 md:px-6 z-20">
+    <Container className="flex flex-wrap justify-center relative top-12 md:top-[-100px] z-20">
       {features.map((feature) => {
         return (
           <Item
@@ -45,7 +46,7 @@ export default function Features({ data }: FeaturesProps) {
           />
         );
       })}
-    </div>
+    </Container>
   );
 }
 

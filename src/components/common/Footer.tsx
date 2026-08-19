@@ -1,4 +1,5 @@
 import AppLink from "@/components/common/AppLink";
+import Container from "@/components/common/Container";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
 import Image from "next/image";
 import React from "react";
@@ -57,9 +58,8 @@ type Props = {
 
 export default function Footer({ address, branding, quicklinks }: Props) {
   return (
-    <footer className="w-full bg-[#f9f9f9] py-10 px-4 md:px-6">
-      <div className="w-full max-w-[1140px] mx-auto">
-        <div className="container mx-auto flex flex-col md:flex-row justify-between gap-10">
+    <footer className="w-full bg-[#f9f9f9] py-10">
+      <Container className="flex flex-col md:flex-row justify-between gap-10">
           {/* Branding */}
           <div className="flex-1 flex flex-col items-start gap-4">
             {branding.brand.logo && (
@@ -147,8 +147,7 @@ export default function Footer({ address, branding, quicklinks }: Props) {
               }
             })}
           </div>
-        </div>
-      </div>
+      </Container>
     </footer>
   );
 }

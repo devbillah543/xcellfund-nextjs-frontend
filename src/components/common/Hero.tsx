@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import Container from "@/components/common/Container";
 import { getAbsoluteUrl } from "@/utils/assetUrl";
 import Image from "next/image";
 import React from "react";
@@ -69,7 +70,7 @@ const Hero: React.FC<Props> = ({
   );
 
   return (
-    <section className="relative w-full h-[379px] md:h-[519px] overflow-hidden flex items-center justify-center bg-gray-100">
+    <section className="relative w-full h-[379px] md:h-[519px] overflow-hidden bg-gray-100">
       <Image
         src={src}
         alt={alt_text || image.alternativeText || title || "Hero Image"}
@@ -81,26 +82,22 @@ const Hero: React.FC<Props> = ({
         fill
       />
 
-      <div
-        className="
-          relative z-10 px-0 py-5
-          flex flex-col gap-3
-          text-white
-          items-start
-          justify-end
-          bottom-16
-          w-full max-w-[1140px] h-full
-          text-left md:bottom-20
-        "
-      >
+      {/*
+        Header is position:absolute over this banner. Padding-top matches
+        that overlay so justify-center balances the title in the remaining space.
+      */}
+      <Container className="relative z-10 h-full flex flex-col items-start justify-center pt-[6.5rem] md:pt-[7.75rem] text-white text-left">
         {title && (
-          <h1 className="flex flex-nowrap gap-4 items-center text-[26px] md:text-6xl font-normal prata">
-            <span className="h-16 md:h-32 w-px bg-gray-500 inline-block mr-5 md:mr-10"></span>
+          <h1 className="flex items-center gap-4 m-0 text-[26px] md:text-6xl font-normal prata leading-none">
+            <span
+              aria-hidden="true"
+              className="h-16 w-px shrink-0 bg-gray-500 md:h-32"
+            />
             <span>{title}</span>
           </h1>
         )}
-        {subtitle && <p className="text-lg md:text-2xl">{subtitle}</p>}
-      </div>
+        {subtitle && <p className="m-0 mt-3 text-lg md:text-2xl">{subtitle}</p>}
+      </Container>
     </section>
   );
 };
